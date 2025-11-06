@@ -1,0 +1,116 @@
+.kaprekar-visualizer {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.step-counter {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.convergence-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.btn-control {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-play {
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  color: #2d3748;
+}
+
+.btn-pause {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  color: #2d3748;
+}
+
+.step-timeline {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.timeline-dot {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #718096;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.timeline-dot:hover {
+  transform: scale(1.1);
+  background: #cbd5e0;
+}
+
+.timeline-dot.completed {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.timeline-dot.active {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  transform: scale(1.2);
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.3);
+}
+
+@media (max-width: 640px) {
+  .controls {
+    flex-direction: column;
+  }
+  
+  .btn-control {
+    width: 100%;
+  }
+}

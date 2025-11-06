@@ -1,0 +1,184 @@
+.step-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  min-height: 500px;
+  justify-content: center;
+}
+
+.step-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.step-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.digit-container {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.digit {
+  width: 64px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.digit-input {
+  background: linear-gradient(135deg, #e0e7ff 0%, #cfd9ff 100%);
+  color: #4c51bf;
+}
+
+.digit-largest {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  animation: slideInFromTop 0.5s ease;
+}
+
+.digit-smallest {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+  color: #5b21b6;
+  animation: slideInFromBottom 0.5s ease;
+}
+
+.digit-result {
+  background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
+  color: #065f46;
+  animation: popIn 0.5s ease;
+}
+
+.digit-final {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  color: #991b1b;
+  animation: celebrate 0.8s ease;
+  box-shadow: 0 0 24px rgba(220, 38, 38, 0.4);
+}
+
+.number-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.calculation {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-top: 0.5rem;
+}
+
+.arrow-down {
+  font-size: 2rem;
+  color: #667eea;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.operation-symbol {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #764ba2;
+}
+
+.result-section {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+}
+
+/* Animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes celebrate {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@media (max-width: 640px) {
+  .digit {
+    width: 52px;
+    height: 64px;
+    font-size: 2rem;
+  }
+  
+  .digit-container {
+    gap: 0.5rem;
+  }
+  
+  .step-display {
+    padding: 1rem;
+  }
+}
