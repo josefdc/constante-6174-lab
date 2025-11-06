@@ -84,6 +84,17 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
     };
   }
   
+  // Easter egg check
+  if (validation.normalized === '0716') {
+    return {
+      success: true,
+      steps: [],
+      iterations: 0,
+      converged: false,
+      isEasterEgg: true
+    };
+  }
+  
   const steps = [];
   let current = validation.normalized;
   let iterations = 0;
@@ -99,7 +110,8 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
     success: true,
     steps: steps,
     iterations: iterations,
-    converged: current === '6174'
+    converged: current === '6174',
+    isEasterEgg: false
   };
 }
 

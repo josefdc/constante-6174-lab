@@ -2,20 +2,28 @@ import { useState } from 'react'
 import { kaprekarSequence } from './utils/kaprekar'
 import KaprekarVisualizer from './components/KaprekarVisualizer'
 import InputPanel from './components/InputPanel'
+import EasterEgg from './components/EasterEgg'
 import './App.css'
 
 function App() {
   const [sequence, setSequence] = useState(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [showEasterEgg, setShowEasterEgg] = useState(false)
 
   const handleStartSequence = (inputNumber) => {
     const result = kaprekarSequence(inputNumber)
     
     if (result.success) {
-      setSequence(result)
-      setCurrentStep(0)
-      setIsPlaying(false)
+      if (result.isEasterEgg) {
+        setShowEasterEgg(true)
+        setSequence(null)
+      } else {
+        setShowEasterEgg(false)
+        setSequence(result)
+        setCurrentStep(0)
+        setIsPlaying(false)
+      }
     } else {
       alert(result.error)
     }
@@ -25,6 +33,7 @@ function App() {
     setSequence(null)
     setCurrentStep(0)
     setIsPlaying(false)
+    setShowEasterEgg(false)
   }
 
   return (
@@ -43,7 +52,9 @@ function App() {
           disabled={isPlaying}
         />
 
-        {sequence && (
+        {showEasterEgg && <EasterEgg />}
+
+        {sequence && !showEasterEgg && (
           <KaprekarVisualizer
             sequence={sequence}
             currentStep={currentStep}
@@ -53,7 +64,7 @@ function App() {
           />
         )}
 
-        {!sequence && (
+        {!sequence && !showEasterEgg && (
           <div className="welcome-message">
             <div className="info-card">
               <h2>How It Works</h2>
