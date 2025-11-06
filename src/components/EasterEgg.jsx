@@ -41,7 +41,7 @@ function EasterEgg() {
       )}
 
       <div className="easter-egg-content">
-        <div className="number-display">0716</div>
+        <div className="number-display">0826</div>
         
         <div className="message-box">
           <p className="message-line">

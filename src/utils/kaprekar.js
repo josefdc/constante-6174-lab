@@ -85,7 +85,7 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
   }
   
   // Easter egg check
-  if (validation.normalized === '0716') {
+  if (validation.normalized === '0826') {
     return {
       success: true,
       steps: [],
