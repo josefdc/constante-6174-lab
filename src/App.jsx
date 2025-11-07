@@ -3,6 +3,7 @@ import { kaprekarSequence } from './utils/kaprekar'
 import KaprekarVisualizer from './components/KaprekarVisualizer'
 import InputPanel from './components/InputPanel'
 import EasterEgg from './components/EasterEgg'
+import LetterEasterEgg from './components/LetterEasterEgg'
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [showEasterEgg, setShowEasterEgg] = useState(false)
+  const [easterEggType, setEasterEggType] = useState(null)
 
   const handleStartSequence = (inputNumber) => {
     const result = kaprekarSequence(inputNumber)
@@ -17,9 +19,11 @@ function App() {
     if (result.success) {
       if (result.isEasterEgg) {
         setShowEasterEgg(true)
+        setEasterEggType(result.easterEggType)
         setSequence(null)
       } else {
         setShowEasterEgg(false)
+        setEasterEggType(null)
         setSequence(result)
         setCurrentStep(0)
         setIsPlaying(false)
@@ -34,6 +38,7 @@ function App() {
     setCurrentStep(0)
     setIsPlaying(false)
     setShowEasterEgg(false)
+    setEasterEggType(null)
   }
 
   return (
@@ -52,7 +57,8 @@ function App() {
           disabled={isPlaying}
         />
 
-        {showEasterEgg && <EasterEgg />}
+        {showEasterEgg && easterEggType === 'convergence' && <EasterEgg />}
+        {showEasterEgg && easterEggType === 'letter' && <LetterEasterEgg />}
 
         {sequence && !showEasterEgg && (
           <KaprekarVisualizer

@@ -91,7 +91,19 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
       steps: [],
       iterations: 0,
       converged: false,
-      isEasterEgg: true
+      isEasterEgg: true,
+      easterEggType: 'convergence'
+    };
+  }
+  
+  if (validation.normalized === '0710') {
+    return {
+      success: true,
+      steps: [],
+      iterations: 0,
+      converged: false,
+      isEasterEgg: true,
+      easterEggType: 'letter'
     };
   }
   
