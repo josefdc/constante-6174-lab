@@ -7,6 +7,7 @@ import './App.css'
 // Lazy load Easter Eggs - solo se cargan cuando se necesitan
 const EasterEgg = lazy(() => import('./components/EasterEgg'))
 const LetterEasterEgg = lazy(() => import('./components/LetterEasterEgg'))
+const ButterflyEasterEgg = lazy(() => import('./components/ButterflyEasterEgg'))
 
 function App() {
   const [sequence, setSequence] = useState(null)
@@ -62,6 +63,7 @@ function App() {
         <Suspense fallback={<div className="loading-easter-egg">Loading...</div>}>
           {showEasterEgg && easterEggType === 'convergence' && <EasterEgg />}
           {showEasterEgg && easterEggType === 'letter' && <LetterEasterEgg />}
+          {showEasterEgg && easterEggType === 'butterfly' && <ButterflyEasterEgg />}
         </Suspense>
 
         {sequence && !showEasterEgg && (
