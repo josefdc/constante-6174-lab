@@ -45,7 +45,7 @@ function EasterEgg() {
         
         <div className="message-box">
           <p className="message-line">
-            Al igual que todos los números eventualmente
+            Al igual que todos los números
           </p>
           <p className="message-line">
             convergen a <span className="highlight-number">6174</span>...
@@ -54,10 +54,13 @@ function EasterEgg() {
           <div className="message-spacer"></div>
           
           <p className="message-main">
-            No importa cuántos caminos tome,
+            Todos mis caminos,
+          </p>
+          <p className="message-main">
+            todas mis pensamientos, todos mis detalles
           </p>
           <p className="message-main emphasis">
-            siempre llegaré a ti, <span className="name">Pau</span> ✨
+            siempre me llevan a ti, <span className="name">Pau</span> ✨
           </p>
         </div>
 
