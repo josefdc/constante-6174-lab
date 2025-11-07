@@ -178,36 +178,69 @@
 
 @media (max-width: 640px) {
   .easter-egg-container {
-    padding: 2rem 1rem;
-    min-height: 500px;
+    padding: 1.5rem 1rem;
+    min-height: 100vh;
   }
 
   .number-display {
-    font-size: 3.5rem;
+    font-size: 3rem;
     letter-spacing: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .message-box {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
   }
 
   .message-line {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin: 0.4rem 0;
   }
 
   .message-main {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin: 0.4rem 0;
+    line-height: 1.5;
   }
 
   .message-main.emphasis {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
+    margin-top: 0.8rem;
+  }
+
+  .name {
+    font-size: 1.2em;
   }
 
   .sparkle {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .sparkle-container {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 
   .floating-heart {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .number-display {
+    font-size: 2.5rem;
+    letter-spacing: 0.3rem;
+  }
+
+  .message-line {
+    font-size: 0.9rem;
+  }
+
+  .message-main {
+    font-size: 0.95rem;
+  }
+
+  .message-main.emphasis {
+    font-size: 1.05rem;
   }
 }

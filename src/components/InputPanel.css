@@ -117,15 +117,50 @@
 }
 
 @media (max-width: 640px) {
+  .input-panel {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .input-group label {
+    font-size: 1rem;
+  }
+  
   .input-controls {
     flex-direction: column;
   }
   
   .input-controls input {
     min-width: 100%;
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+    letter-spacing: 0.4rem;
   }
   
   .btn {
     width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .input-panel {
+    padding: 1.25rem;
+    margin: 1rem 0;
+  }
+  
+  .input-group label {
+    font-size: 0.95rem;
+  }
+  
+  .input-controls input {
+    font-size: 1.1rem;
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.625rem 1rem;
   }
 }
