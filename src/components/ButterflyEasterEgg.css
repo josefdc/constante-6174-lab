@@ -6,8 +6,11 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #ff9a56 0%, #ff6b35 30%, #ff4500 60%, #d63031 100%);
-  background-size: 200% 200%;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(255, 140, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at center, #ff9a56 0%, #ff6b35 30%, #ff4500 60%, #d63031 100%);
+  background-size: 100% 100%, 100% 100%, 200% 200%;
   animation: sunsetPulse 12s ease infinite;
   border-radius: 16px;
   padding: 3rem 2rem;
@@ -16,10 +19,10 @@
 
 @keyframes sunsetPulse {
   0%, 100% {
-    background-position: 50% 50%;
+    background-position: 0 0, 0 0, 50% 50%;
   }
   50% {
-    background-position: 60% 40%;
+    background-position: 0 0, 0 0, 60% 40%;
   }
 }
 
@@ -41,9 +44,10 @@
   left: 50%;
   width: 0;
   height: 0;
-  animation: spiral var(--duration) linear infinite;
+  animation: spiral var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
   transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 @keyframes spiral {
@@ -56,11 +60,17 @@
       rotateZ(0deg);
     opacity: 0;
   }
+  5% {
+    opacity: 0.3;
+  }
   10% {
     opacity: 1;
   }
   90% {
     opacity: 1;
+  }
+  95% {
+    opacity: 0.3;
   }
   100% {
     transform: 
@@ -156,6 +166,8 @@
   letter-spacing: 0.8rem;
   animation: glowPulse 3s ease-in-out infinite;
   font-family: 'Georgia', serif;
+  margin: 0;
+  line-height: 1.2;
 }
 
 @keyframes glowPulse {
@@ -188,9 +200,11 @@
   border-radius: 20px;
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.3),
+    0 10px 30px rgba(255, 107, 53, 0.2),
     inset 0 0 60px rgba(255, 215, 0, 0.1);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 215, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .butterfly-line {
