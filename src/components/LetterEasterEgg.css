@@ -11,6 +11,7 @@
   animation: vintageGradient 10s ease infinite;
   border-radius: 16px;
   padding: 3rem 2rem;
+  will-change: background-position;
 }
 
 @keyframes vintageGradient {
@@ -43,6 +44,7 @@
   opacity: 0;
   animation: floatUpEnvelope 12s ease-in infinite;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  will-change: transform, opacity;
 }
 
 @keyframes floatUpEnvelope {
@@ -80,6 +82,7 @@
   opacity: 0;
   animation: inkFall 10s ease-in infinite;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  will-change: transform, opacity;
 }
 
 @keyframes inkFall {

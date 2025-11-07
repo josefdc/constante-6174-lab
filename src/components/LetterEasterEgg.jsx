@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import './LetterEasterEgg.css'
 
 function LetterEasterEgg() {
@@ -17,7 +17,7 @@ function LetterEasterEgg() {
     ps: ''
   })
 
-  const messages = {
+  const messages = useMemo(() => ({
     greeting: 'Querida Pau,',
     line1: 'Hoy es 0710 otra vez.',
     line2: 'El día que una carta cambió todo.',
@@ -28,14 +28,32 @@ function LetterEasterEgg() {
     line7: 'Me encanta que cada palabra encuentre',
     line8: 'su propósito en tu nombre.',
     ps: 'P.D. Este teorema sigue vigente. Las verdades son difíciles de negar... y la tuya es imposible.'
-  }
+  }), [])
+
+  const envelopes = useMemo(() => Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 8 + Math.random() * 4,
+    rotation: Math.random() * 360
+  })), [])
+
+  const inkDrops = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 5,
+    duration: 6 + Math.random() * 4
+  })), [])
 
   useEffect(() => {
-    const envelopesTimer = setTimeout(() => setShowEnvelopes(true), 500)
-    const inkTimer = setTimeout(() => setShowInk(true), 300)
+    const timers = []
+    const intervals = []
+    
+    timers.push(setTimeout(() => setShowEnvelopes(true), 500))
+    timers.push(setTimeout(() => setShowInk(true), 300))
 
     const typeText = (text, lineKey, startDelay) => {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         let currentIndex = 0
         const interval = setInterval(() => {
           if (currentIndex <= text.length) {
@@ -48,7 +66,9 @@ function LetterEasterEgg() {
             clearInterval(interval)
           }
         }, 40)
+        intervals.push(interval)
       }, startDelay)
+      timers.push(timer)
     }
 
     typeText(messages.greeting, 'greeting', 1000)
@@ -63,25 +83,10 @@ function LetterEasterEgg() {
     typeText(messages.ps, 'ps', 13200)
 
     return () => {
-      clearTimeout(envelopesTimer)
-      clearTimeout(inkTimer)
+      timers.forEach(timer => clearTimeout(timer))
+      intervals.forEach(interval => clearInterval(interval))
     }
-  }, [])
-
-  const envelopes = Array.from({ length: 15 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 8 + Math.random() * 4,
-    rotation: Math.random() * 360
-  }))
-
-  const inkDrops = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 5,
-    duration: 6 + Math.random() * 4
-  }))
+  }, [messages])
 
   return (
     <div className="letter-easter-egg-container">

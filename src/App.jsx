@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { kaprekarSequence } from './utils/kaprekar'
 import KaprekarVisualizer from './components/KaprekarVisualizer'
 import InputPanel from './components/InputPanel'
-import EasterEgg from './components/EasterEgg'
-import LetterEasterEgg from './components/LetterEasterEgg'
 import './App.css'
+
+// Lazy load Easter Eggs - solo se cargan cuando se necesitan
+const EasterEgg = lazy(() => import('./components/EasterEgg'))
+const LetterEasterEgg = lazy(() => import('./components/LetterEasterEgg'))
 
 function App() {
   const [sequence, setSequence] = useState(null)
@@ -57,8 +59,10 @@ function App() {
           disabled={isPlaying}
         />
 
-        {showEasterEgg && easterEggType === 'convergence' && <EasterEgg />}
-        {showEasterEgg && easterEggType === 'letter' && <LetterEasterEgg />}
+        <Suspense fallback={<div className="loading-easter-egg">Loading...</div>}>
+          {showEasterEgg && easterEggType === 'convergence' && <EasterEgg />}
+          {showEasterEgg && easterEggType === 'letter' && <LetterEasterEgg />}
+        </Suspense>
 
         {sequence && !showEasterEgg && (
           <KaprekarVisualizer

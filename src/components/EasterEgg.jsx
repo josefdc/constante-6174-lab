@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import './EasterEgg.css'
 
 function EasterEgg() {
@@ -6,24 +6,43 @@ function EasterEgg() {
   const [showStars, setShowStars] = useState(false)
   const [typedText, setTypedText] = useState({ line1: '', line2: '', line3: '', line4: '', line5: '' })
   
-  const messages = {
+  const messages = useMemo(() => ({
     line1: 'Al igual que todos los números',
     line2: 'convergen a 6174...',
     line3: 'Todos mis caminos,',
     line4: 'todas mis pensamientos, todos mis detalles',
     line5: 'siempre me llevan a ti, Pau ✨'
-  }
+  }), [])
+
+  const hearts = useMemo(() => Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 4 + Math.random() * 3,
+    size: 1 + Math.random() * 1.5
+  })), [])
+
+  const stars = useMemo(() => Array.from({ length: 40 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 4,
+    duration: 5 + Math.random() * 5,
+    size: 0.5 + Math.random()
+  })), [])
 
   useEffect(() => {
+    const timers = []
+    const intervals = []
+    
     // Trigger hearts animation
-    const heartsTimer = setTimeout(() => setShowHearts(true), 500)
+    timers.push(setTimeout(() => setShowHearts(true), 500))
     
     // Trigger stars animation
-    const starsTimer = setTimeout(() => setShowStars(true), 300)
+    timers.push(setTimeout(() => setShowStars(true), 300))
 
     // Typing effect for each line
     const typeText = (text, lineKey, startDelay) => {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         let currentIndex = 0
         const interval = setInterval(() => {
           if (currentIndex <= text.length) {
@@ -36,7 +55,9 @@ function EasterEgg() {
             clearInterval(interval)
           }
         }, 50)
+        intervals.push(interval)
       }, startDelay)
+      timers.push(timer)
     }
 
     // Stagger the typing animations
@@ -47,26 +68,10 @@ function EasterEgg() {
     typeText(messages.line5, 'line5', 7000)
 
     return () => {
-      clearTimeout(heartsTimer)
-      clearTimeout(starsTimer)
+      timers.forEach(timer => clearTimeout(timer))
+      intervals.forEach(interval => clearInterval(interval))
     }
-  }, [])
-
-  const hearts = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 4 + Math.random() * 3,
-    size: 1 + Math.random() * 1.5
-  }))
-
-  const stars = Array.from({ length: 40 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    delay: Math.random() * 4,
-    duration: 5 + Math.random() * 5,
-    size: 0.5 + Math.random()
-  }))
+  }, [messages])
 
   return (
     <div className="easter-egg-container">

@@ -11,6 +11,7 @@
   animation: gradientShift 8s ease infinite;
   border-radius: 16px;
   padding: 3rem 2rem;
+  will-change: background-position;
 }
 
 @keyframes gradientShift {
@@ -42,6 +43,7 @@
   opacity: 0;
   animation: fallDown 8s ease-in infinite;
   filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  will-change: transform, opacity;
 }
 
 @keyframes fallDown {
@@ -78,6 +80,7 @@
   opacity: 0;
   animation: floatUp 6s ease-in infinite;
   filter: drop-shadow(0 0 5px rgba(255, 192, 203, 0.6));
+  will-change: transform, opacity;
 }
 
 @keyframes floatUp {
@@ -129,6 +132,7 @@
 .magic-glow {
   position: relative;
   animation: pulse 2s ease-in-out infinite, magicShine 3s linear infinite;
+  will-change: filter, transform;
 }
 
 @keyframes magicShine {
