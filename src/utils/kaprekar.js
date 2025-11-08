@@ -118,6 +118,17 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
     };
   }
   
+  if (validation.normalized === '1101') {
+    return {
+      success: true,
+      steps: [],
+      iterations: 0,
+      converged: false,
+      isEasterEgg: true,
+      easterEggType: 'bunny'
+    };
+  }
+  
   const steps = [];
   let current = validation.normalized;
   let iterations = 0;
