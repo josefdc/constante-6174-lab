@@ -122,6 +122,20 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
   let current = validation.normalized;
   let iterations = 0;
   
+  // Edge case: if starting number is already 6174
+  if (current === '6174') {
+    const step = kaprekarStep(current);
+    steps.push(step);
+    return {
+      success: true,
+      steps: steps,
+      iterations: 1,
+      converged: true,
+      isEasterEgg: false,
+      wasAlreadyConverged: true
+    };
+  }
+  
   while (current !== '6174' && iterations < maxIterations) {
     const step = kaprekarStep(current);
     steps.push(step);
