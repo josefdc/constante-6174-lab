@@ -9,7 +9,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
+          'react-vendor': ['react', 'react-dom', 'scheduler'],
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+          'genai-vendor': ['@google/genai'],
+          'icons-vendor': ['lucide-react'],
         },
       },
     },
