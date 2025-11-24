@@ -1,5 +1,5 @@
 import { useState, Suspense } from 'react'
-import { Loader2, X, CloudLightning } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import TorusScene from './TorusScene'
 import UIControls from './UIControls'
 import './PolytorusEasterEgg.css'
@@ -30,7 +30,7 @@ function PolytorusEasterEgg({ onClose }) {
 
   return (
     <div className="polytorus-container">
-      {/* Close button */}
+      {/* Botón cerrar */}
       <button 
         className="polytorus-close-btn"
         onClick={onClose}
@@ -39,7 +39,7 @@ function PolytorusEasterEgg({ onClose }) {
         <X size={24} />
       </button>
 
-      {/* Toggle controls button (mobile) */}
+      {/* Botón toggle controles (móvil) */}
       <button 
         className="polytorus-toggle-controls"
         onClick={() => setShowControls(!showControls)}
@@ -48,35 +48,21 @@ function PolytorusEasterEgg({ onClose }) {
         {showControls ? 'Ocultar' : 'Controles'}
       </button>
 
-      {/* 3D Scene */}
+      {/* Escena 3D */}
       <div className="polytorus-scene">
         <Suspense fallback={
           <div className="polytorus-loading">
             <Loader2 className="polytorus-spinner" size={32} />
-            <span>Inicializando entorno 3D...</span>
+            <span>Cargando escena 3D...</span>
           </div>
         }>
           <TorusScene theme={theme} geometry={geometry} />
         </Suspense>
       </div>
 
-      {/* UI Overlay */}
-      <div className="polytorus-overlay">
-        {/* Header */}
-        <div className="polytorus-header">
-          <div className="polytorus-header-icon">
-            <CloudLightning size={24} />
-          </div>
-          <div className="polytorus-header-text">
-            <h1 className="polytorus-title">PolyTorus AI</h1>
-            <p className="polytorus-subtitle">
-              Easter Egg π (3141) — Visualizador de poliedros toroidales
-            </p>
-          </div>
-        </div>
-
-        {/* Controls */}
-        {showControls && (
+      {/* Panel de controles */}
+      {showControls && (
+        <div className="polytorus-overlay">
           <div className="polytorus-controls-wrapper">
             <UIControls
               currentTheme={theme}
@@ -85,8 +71,8 @@ function PolytorusEasterEgg({ onClose }) {
               onGeometryChange={setGeometry}
             />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
