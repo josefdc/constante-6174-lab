@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: var(--space-6);
+  padding: var(--space-8);
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   min-height: 500px;
   justify-content: center;
 }
@@ -14,15 +14,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
   width: 100%;
   max-width: 400px;
 }
 
 .step-label {
   font-size: 1rem;
-  font-weight: 600;
-  color: #4a5568;
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -30,21 +30,21 @@
 
 .digit-container {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
   justify-content: center;
 }
 
 .digit {
-  width: 64px;
-  height: 80px;
+  width: clamp(48px, 10vw, 64px);
+  height: clamp(60px, 12vw, 80px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: var(--font-bold);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
 .digit-input {
@@ -60,7 +60,7 @@
 
 .digit-smallest {
   background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
-  color: #5b21b6;
+  color: var(--color-primary-700);
   animation: slideInFromBottom 0.5s ease;
 }
 
@@ -79,33 +79,35 @@
 
 .number-value {
   font-size: 1.2rem;
-  font-weight: 600;
-  color: #2d3748;
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-800);
 }
 
 .calculation {
   font-size: 1.1rem;
-  font-weight: 600;
-  color: #4a5568;
-  margin-top: 0.5rem;
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
+  margin-top: var(--space-2);
 }
 
 .arrow-down {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-primary-500);
   animation: bounce 2s ease-in-out infinite;
 }
 
 .operation-symbol {
   font-size: 3rem;
-  font-weight: 700;
-  color: #764ba2;
+  font-weight: var(--font-bold);
+  color: var(--color-primary-600);
 }
 
 .result-section {
   background: rgba(255, 255, 255, 0.6);
-  padding: 1.5rem;
-  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
   border: 3px solid rgba(102, 126, 234, 0.3);
 }
 
@@ -167,6 +169,9 @@
   }
 }
 
+/* ========================================
+   RESPONSIVE
+   ======================================== */
 @media (max-width: 640px) {
   .digit {
     width: 48px;
@@ -175,11 +180,11 @@
   }
   
   .digit-container {
-    gap: 0.4rem;
+    gap: var(--space-2);
   }
   
   .step-display {
-    padding: 1rem;
+    padding: var(--space-4);
     min-height: 450px;
   }
   
@@ -212,11 +217,11 @@
   }
   
   .digit-container {
-    gap: 0.3rem;
+    gap: var(--space-1);
   }
   
   .step-display {
-    padding: 0.75rem;
+    padding: var(--space-3);
     min-height: 400px;
   }
   
@@ -230,5 +235,25 @@
   
   .calculation {
     font-size: 0.85rem;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .digit-largest,
+  .digit-smallest,
+  .digit-result,
+  .digit-final {
+    animation: none;
+  }
+  
+  .arrow-down {
+    animation: none;
+  }
+  
+  .digit {
+    transition: none;
   }
 }

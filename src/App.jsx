@@ -62,7 +62,7 @@ function App() {
           disabled={isPlaying}
         />
 
-        <Suspense fallback={<div className="loading-easter-egg">Loading...</div>}>
+        <Suspense fallback={<div className="loading-easter-egg" aria-label="Cargando contenido especial"></div>}>
           {showEasterEgg && easterEggType === 'convergence' && <EasterEgg />}
           {showEasterEgg && easterEggType === 'letter' && <LetterEasterEgg />}
           {showEasterEgg && easterEggType === 'butterfly' && <ButterflyEasterEgg />}
