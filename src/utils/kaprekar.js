@@ -140,7 +140,7 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
     };
   }
   
-  if (validation.normalized === '1402') {
+  if (validation.normalized === '2741') {
     return {
       success: true,
       steps: [],
