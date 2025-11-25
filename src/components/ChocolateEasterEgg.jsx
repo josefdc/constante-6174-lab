@@ -35,7 +35,18 @@ const CONFIG = {
 }
 
 const CHOCOLATE_EMOJIS = ['🍫', '🍬', '🍩', '🧁', '🎂', '🍪', '🍰', '🍭', '🥧']
-const CHOCOLATE_BOX_ITEMS = ['🍫', '🍬', '🍫', '🍩', '🧁', '🍫', '🍪', '🍬', '🍫']
+const CHOCOLATE_BOX_ITEMS = [
+  { emoji: '🍫', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍬', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍫', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍩', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🧁', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍫', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍪', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍬', message: 'Si fueran reales no duran un soplo jaja' },
+  { emoji: '🍫', message: 'Si fueran reales no duran un soplo jaja' }
+]
+const BURST_EMOJIS = ['💕', '✨', '💖', '🌟', '💝', '⭐']
 
 // Generadores
 const generateChocolates = ({ count, maxDelay, baseDuration, durationVariance }) =>
@@ -84,6 +95,9 @@ function ChocolateEasterEgg() {
   const [showHearts, setShowHearts] = useState(false)
   const [showSparkles, setShowSparkles] = useState(false)
   const [showGolden, setShowGolden] = useState(false)
+  const [clickedItems, setClickedItems] = useState(new Set())
+  const [bursts, setBursts] = useState([])
+  const [floatingMessages, setFloatingMessages] = useState([])
 
   const chocolates = useMemo(() => generateChocolates(CONFIG.chocolates), [])
   const hearts = useMemo(() => generateHearts(CONFIG.hearts), [])
@@ -102,6 +116,30 @@ function ChocolateEasterEgg() {
       clearTimeout(heartsTimer)
       clearTimeout(goldenTimer)
     }
+  }, [])
+
+  const handleBombonClick = useCallback((idx, item) => {
+    // Marcar como clickeado
+    setClickedItems(prev => new Set([...prev, idx]))
+    
+    // Crear burst de emojis
+    const newBursts = Array.from({ length: 6 }, (_, i) => ({
+      id: Date.now() + i,
+      emoji: BURST_EMOJIS[Math.floor(Math.random() * BURST_EMOJIS.length)],
+      angle: (360 / 6) * i + Math.random() * 30,
+      distance: 40 + Math.random() * 30
+    }))
+    
+    setBursts(prev => [...prev, { idx, bursts: newBursts }])
+    
+    // Mostrar mensaje flotante
+    setFloatingMessages(prev => [...prev, { idx, text: item.message }])
+    
+    // Limpiar después de la animación
+    setTimeout(() => {
+      setBursts(prev => prev.filter(b => b.idx !== idx))
+      setFloatingMessages(prev => prev.filter(m => m.idx !== idx))
+    }, 1500)
   }, [])
 
   const renderChocolate = useCallback((choco) => (
@@ -215,13 +253,39 @@ function ChocolateEasterEgg() {
         <article className="chocolate-box">
           {/* Caja de chocolates visual */}
           <div className="box-grid">
-            {CHOCOLATE_BOX_ITEMS.map((emoji, idx) => (
+            {CHOCOLATE_BOX_ITEMS.map((item, idx) => (
               <div 
                 key={idx} 
-                className="box-item"
+                className={`box-item ${clickedItems.has(idx) ? 'eaten' : ''}`}
                 style={{ animationDelay: `${0.8 + idx * 0.1}s` }}
+                onClick={() => !clickedItems.has(idx) && handleBombonClick(idx, item)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && !clickedItems.has(idx) && handleBombonClick(idx, item)}
+                aria-label={`Chocolate ${idx + 1}`}
               >
-                {emoji}
+                <span className="box-item-emoji">{clickedItems.has(idx) ? '😋' : item.emoji}</span>
+                
+                {/* Burst de emojis */}
+                {bursts.find(b => b.idx === idx)?.bursts.map(burst => (
+                  <span
+                    key={burst.id}
+                    className="burst-emoji"
+                    style={{
+                      '--angle': `${burst.angle}deg`,
+                      '--distance': `${burst.distance}px`
+                    }}
+                  >
+                    {burst.emoji}
+                  </span>
+                ))}
+                
+                {/* Mensaje flotante */}
+                {floatingMessages.find(m => m.idx === idx) && (
+                  <span className="floating-message">
+                    {floatingMessages.find(m => m.idx === idx).text}
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -230,7 +294,6 @@ function ChocolateEasterEgg() {
           
           <p className="choco-message">La vida es más dulce</p>
           <p className="choco-message highlight">cuando la comparto contigo</p>
-          <p className="choco-message signature">💕</p>
         </article>
 
         <footer className="chocolate-footer">
