@@ -7,17 +7,6 @@
   animation: slideUp 0.4s var(--transition-base) 0.1s both;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .input-form {
   width: 100%;
 }
@@ -73,6 +62,8 @@
 }
 
 .btn {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-3) var(--space-6);
   font-size: 1rem;
   font-weight: var(--font-semibold);
@@ -81,6 +72,25 @@
   cursor: pointer;
   transition: all var(--transition-base);
   white-space: nowrap;
+}
+
+/* Ripple effect */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.btn:active:not(:disabled)::after {
+  animation: ripple 0.5s ease-out;
 }
 
 .btn:hover:not(:disabled) {
@@ -210,6 +220,10 @@
   }
   
   .error-message {
+    animation: none;
+  }
+  
+  .btn::after {
     animation: none;
   }
   

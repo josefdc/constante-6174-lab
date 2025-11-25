@@ -140,6 +140,17 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
     };
   }
   
+  if (validation.normalized === '1402') {
+    return {
+      success: true,
+      steps: [],
+      iterations: 0,
+      converged: false,
+      isEasterEgg: true,
+      easterEggType: 'chocolate'
+    };
+  }
+  
   const steps = [];
   let current = validation.normalized;
   let iterations = 0;

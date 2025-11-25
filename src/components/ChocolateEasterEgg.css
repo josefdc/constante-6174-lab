@@ -1,0 +1,382 @@
+/* ========================================
+   CHOCOLATE EASTER EGG
+   Trigger: 1402 (Valentine's Day)
+   ======================================== */
+
+.chocolate-easter-egg-container {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #5d4037 0%, #3e2723 50%, #4e342e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: var(--z-modal, 300);
+  animation: chocoFadeIn 0.8s ease-out;
+}
+
+@keyframes chocoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   SPARKLES BACKGROUND
+   ======================================== */
+.sparkles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sparkle {
+  position: absolute;
+  animation: sparkle-twinkle 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+/* ========================================
+   FALLING CHOCOLATES
+   ======================================== */
+.chocolates-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.falling-chocolate {
+  position: absolute;
+  top: -10%;
+  animation: chocolate-fall linear infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  will-change: transform;
+}
+
+@keyframes chocolate-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(var(--sway, 30px)) rotate(var(--rotation, 360deg));
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   FLOATING HEARTS
+   ======================================== */
+.choco-hearts-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-choco-heart {
+  position: absolute;
+  bottom: -10%;
+  animation: choco-heart-float ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes choco-heart-float {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+.chocolate-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: var(--space-8, 2rem);
+  max-width: 500px;
+  animation: choco-content-enter 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s both;
+}
+
+@keyframes choco-content-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.chocolate-header {
+  margin-bottom: var(--space-8, 2rem);
+}
+
+.choco-icon-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4, 1rem);
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.choco-icon-large {
+  font-size: 3rem;
+  animation: choco-bounce 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.choco-icon-large:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.choco-icon-large:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.choco-icon-large:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes choco-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-5deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+.choco-title {
+  font-size: clamp(3rem, 12vw, 5rem);
+  font-weight: var(--font-extrabold, 800);
+  color: #ffcc80;
+  text-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(255, 183, 77, 0.3);
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+.choco-subtitle {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  color: #ffab91;
+  font-weight: var(--font-medium, 500);
+  margin-top: var(--space-2, 0.5rem);
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* ========================================
+   CHOCOLATE BOX (Message area)
+   ======================================== */
+.chocolate-box {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-8, 2rem);
+  border: 2px solid rgba(255, 204, 128, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.choco-wrapper {
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.big-chocolate {
+  font-size: 5rem;
+  display: inline-block;
+  animation: gift-shake 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes gift-shake {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  10% {
+    transform: rotate(-8deg) scale(1.05);
+  }
+  20% {
+    transform: rotate(8deg) scale(1.05);
+  }
+  30% {
+    transform: rotate(-5deg) scale(1);
+  }
+  40% {
+    transform: rotate(5deg) scale(1);
+  }
+  50% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.choco-message {
+  color: #fff8e1;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  line-height: var(--leading-relaxed, 1.75);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.choco-message.secondary {
+  margin-top: var(--space-3, 0.75rem);
+  font-size: clamp(1.1rem, 5vw, 1.5rem);
+  font-weight: var(--font-semibold, 600);
+  color: #ffcc80;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.chocolate-footer {
+  margin-top: var(--space-8, 2rem);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4, 1rem);
+}
+
+.footer-choco {
+  font-size: 2rem;
+  animation: footer-float 3s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+.footer-choco:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.footer-choco:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.footer-choco:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes footer-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 640px) {
+  .chocolate-content {
+    padding: var(--space-6, 1.5rem);
+  }
+
+  .choco-icon-large {
+    font-size: 2.5rem;
+  }
+
+  .chocolate-box {
+    padding: var(--space-6, 1.5rem);
+  }
+
+  .big-chocolate {
+    font-size: 4rem;
+  }
+
+  .footer-choco {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .chocolate-content {
+    padding: var(--space-4, 1rem);
+  }
+
+  .choco-icon-row {
+    gap: var(--space-2, 0.5rem);
+  }
+
+  .choco-icon-large {
+    font-size: 2rem;
+  }
+
+  .chocolate-box {
+    padding: var(--space-4, 1rem);
+  }
+
+  .big-chocolate {
+    font-size: 3rem;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .chocolate-easter-egg-container {
+    animation: none;
+  }
+
+  .falling-chocolate,
+  .floating-choco-heart,
+  .sparkle {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .choco-icon-large,
+  .big-chocolate,
+  .footer-choco {
+    animation: none;
+  }
+
+  .chocolate-content {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

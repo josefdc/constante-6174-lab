@@ -45,29 +45,37 @@
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
+  will-change: transform, opacity;
 }
+
+/* Stagger animation for digits */
+.digit:nth-child(1) { animation-delay: 0s; }
+.digit:nth-child(2) { animation-delay: 0.08s; }
+.digit:nth-child(3) { animation-delay: 0.16s; }
+.digit:nth-child(4) { animation-delay: 0.24s; }
 
 .digit-input {
   background: linear-gradient(135deg, #e0e7ff 0%, #cfd9ff 100%);
   color: #4c51bf;
+  animation: staggerFadeIn 0.4s var(--transition-bounce) backwards;
 }
 
 .digit-largest {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   color: #92400e;
-  animation: slideInFromTop 0.5s ease;
+  animation: slideInFromTop 0.5s var(--transition-bounce) backwards;
 }
 
 .digit-smallest {
   background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
   color: var(--color-primary-700);
-  animation: slideInFromBottom 0.5s ease;
+  animation: slideInFromBottom 0.5s var(--transition-bounce) backwards;
 }
 
 .digit-result {
   background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
   color: #065f46;
-  animation: popIn 0.5s ease;
+  animation: popIn 0.5s var(--transition-bounce) backwards;
 }
 
 .digit-final {
@@ -242,11 +250,19 @@
    REDUCED MOTION
    ======================================== */
 @media (prefers-reduced-motion: reduce) {
+  .digit-input,
   .digit-largest,
   .digit-smallest,
   .digit-result,
   .digit-final {
     animation: none;
+  }
+  
+  .digit:nth-child(1),
+  .digit:nth-child(2),
+  .digit:nth-child(3),
+  .digit:nth-child(4) {
+    animation-delay: 0s;
   }
   
   .arrow-down {
@@ -255,5 +271,6 @@
   
   .digit {
     transition: none;
+    will-change: auto;
   }
 }

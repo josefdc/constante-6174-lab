@@ -10,6 +10,7 @@ const LetterEasterEgg = lazy(() => import('./components/LetterEasterEgg'))
 const ButterflyEasterEgg = lazy(() => import('./components/ButterflyEasterEgg'))
 const BunnyEasterEgg = lazy(() => import('./components/BunnyEasterEgg'))
 const PolytorusEasterEgg = lazy(() => import('./components/PolytorusEasterEgg'))
+const ChocolateEasterEgg = lazy(() => import('./components/ChocolateEasterEgg'))
 
 function App() {
   const [sequence, setSequence] = useState(null)
@@ -68,6 +69,7 @@ function App() {
           {showEasterEgg && easterEggType === 'butterfly' && <ButterflyEasterEgg />}
           {showEasterEgg && easterEggType === 'bunny' && <BunnyEasterEgg />}
           {showEasterEgg && easterEggType === 'polytorus' && <PolytorusEasterEgg onClose={handleReset} />}
+          {showEasterEgg && easterEggType === 'chocolate' && <ChocolateEasterEgg />}
         </Suspense>
 
         {sequence && !showEasterEgg && (

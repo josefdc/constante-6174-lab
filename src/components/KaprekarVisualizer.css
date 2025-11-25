@@ -10,17 +10,6 @@
   animation: slideUp 0.5s var(--transition-base);
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .progress-indicator {
   display: flex;
   justify-content: space-between;
@@ -112,7 +101,19 @@
   cursor: pointer;
   transition: all var(--transition-base);
   border: 3px solid transparent;
+  will-change: transform;
+  animation: staggerFadeIn 0.3s var(--transition-bounce) backwards;
 }
+
+/* Stagger for timeline dots (up to 8 steps) */
+.timeline-dot:nth-child(1) { animation-delay: 0s; }
+.timeline-dot:nth-child(2) { animation-delay: 0.05s; }
+.timeline-dot:nth-child(3) { animation-delay: 0.1s; }
+.timeline-dot:nth-child(4) { animation-delay: 0.15s; }
+.timeline-dot:nth-child(5) { animation-delay: 0.2s; }
+.timeline-dot:nth-child(6) { animation-delay: 0.25s; }
+.timeline-dot:nth-child(7) { animation-delay: 0.3s; }
+.timeline-dot:nth-child(8) { animation-delay: 0.35s; }
 
 .timeline-dot:hover {
   transform: scale(1.1);
@@ -219,5 +220,7 @@
   
   .timeline-dot {
     transition: none;
+    animation: none;
+    will-change: auto;
   }
 }
