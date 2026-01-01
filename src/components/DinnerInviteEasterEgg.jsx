@@ -139,7 +139,7 @@ function DinnerInviteEasterEgg({ onClose }) {
     <div className={`dinner-step ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
       <div className="dinner-emoji-header">🥺</div>
       <h2 className="dinner-question">
-        ¿Aún tienes dolor de amígdalas, mi Pau?
+        ¿Aún tienes dolor de amígdalas, Pau?
       </h2>
       <div className="dinner-options">
         <button
