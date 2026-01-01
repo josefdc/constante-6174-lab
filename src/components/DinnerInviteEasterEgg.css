@@ -66,34 +66,31 @@
   outline-offset: 2px;
 }
 
-/* Corazones flotantes de fondo */
-.dinner-hearts-container {
+/* Confeti */
+.dinner-confetti-container {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 3;
 }
 
-.dinner-floating-heart {
+.dinner-confetti {
   position: absolute;
-  bottom: -10%;
-  animation: dinner-heart-float linear infinite;
-  filter: blur(0.5px);
+  top: -5%;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: dinner-confetti-fall 3.5s ease-out forwards;
 }
 
-@keyframes dinner-heart-float {
+@keyframes dinner-confetti-fall {
   0% {
-    transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 0;
-  }
-  10% {
-    opacity: var(--heart-opacity, 0.5);
-  }
-  90% {
-    opacity: var(--heart-opacity, 0.5);
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
   }
   100% {
-    transform: translateY(-120vh) rotate(360deg) scale(0.8);
+    transform: translateY(110vh) rotate(var(--rotation, 360deg));
     opacity: 0;
   }
 }
@@ -345,13 +342,13 @@
   );
 }
 
-.dinner-final-hearts {
+.dinner-final-icon {
   font-size: 2.5rem;
   margin-bottom: var(--space-4);
-  animation: dinner-pulse-hearts 1.5s ease-in-out infinite;
+  animation: dinner-pulse-icon 1.5s ease-in-out infinite;
 }
 
-@keyframes dinner-pulse-hearts {
+@keyframes dinner-pulse-icon {
   0%, 100% {
     transform: scale(1);
   }
@@ -475,13 +472,13 @@
     animation: none;
   }
 
-  .dinner-floating-heart {
+  .dinner-confetti {
     animation: none;
-    opacity: 0.3;
+    opacity: 0;
   }
 
   .dinner-emoji-header,
-  .dinner-final-hearts,
+  .dinner-final-icon,
   .dinner-btn-final {
     animation: none;
   }

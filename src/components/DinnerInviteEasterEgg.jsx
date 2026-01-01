@@ -10,10 +10,12 @@ const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
 const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'
 // ============================================
 
+const CONFETTI_COLORS = ['#ffd700', '#ffb6c1', '#ffa07a', '#f8a488', '#dda0dd']
+
 const COMFORT_FOOD_OPTIONS = [
   { id: 'ramen', label: 'Sopita Ramen', emoji: '🍜' },
   { id: 'pasta', label: 'Cremas/Pasta suave', emoji: '🍝' },
-  { id: 'tu-eliges', label: 'Lo que tú elijas', emoji: '💝' }
+  { id: 'tu-eliges', label: 'Lo que tú elijas', emoji: '🫵' }
 ]
 
 const OPEN_FOOD_OPTIONS = [
@@ -36,25 +38,27 @@ function DinnerInviteEasterEgg({ onClose }) {
     foodPreference: null
   })
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [showHearts, setShowHearts] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
 
-  // Generar corazones flotantes
-  const hearts = useMemo(() =>
-    Array.from({ length: 18 }, (_, i) => ({
+  // Generar confeti para el paso final
+  const confetti = useMemo(() =>
+    Array.from({ length: 25 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      delay: Math.random() * 8,
-      duration: 6 + Math.random() * 6,
-      size: 0.8 + Math.random() * 0.8,
-      opacity: 0.3 + Math.random() * 0.4
+      delay: Math.random() * 0.8,
+      rotation: Math.random() * 720 - 360,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)]
     })), []
   )
 
+  // Activar confeti cuando llegamos al paso 4
   useEffect(() => {
-    const timer = setTimeout(() => setShowHearts(true), 300)
-    return () => clearTimeout(timer)
-  }, [])
+    if (step === 4) {
+      const timer = setTimeout(() => setShowConfetti(true), 200)
+      return () => clearTimeout(timer)
+    }
+  }, [step])
 
   // Enviar respuestas por email
   const sendResponse = useCallback(async (finalAnswers) => {
@@ -114,25 +118,22 @@ function DinnerInviteEasterEgg({ onClose }) {
     if (onClose) onClose()
   }, [onClose])
 
-  const renderHearts = useCallback(() => (
-    <div className="dinner-hearts-container" aria-hidden="true">
-      {hearts.map(heart => (
+  const renderConfetti = useCallback(() => (
+    <div className="dinner-confetti-container" aria-hidden="true">
+      {confetti.map(piece => (
         <span
-          key={heart.id}
-          className="dinner-floating-heart"
+          key={piece.id}
+          className="dinner-confetti"
           style={{
-            left: `${heart.x}%`,
-            animationDelay: `${heart.delay}s`,
-            animationDuration: `${heart.duration}s`,
-            fontSize: `${heart.size}rem`,
-            opacity: heart.opacity
+            left: `${piece.x}%`,
+            animationDelay: `${piece.delay}s`,
+            backgroundColor: piece.color,
+            '--rotation': `${piece.rotation}deg`
           }}
-        >
-          💕
-        </span>
+        />
       ))}
     </div>
-  ), [hearts])
+  ), [confetti])
 
   const renderStep1 = () => (
     <div className={`dinner-step ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
@@ -183,7 +184,7 @@ function DinnerInviteEasterEgg({ onClose }) {
   const renderStep3 = () => {
     const options = answers.hasThroatPain ? COMFORT_FOOD_OPTIONS : OPEN_FOOD_OPTIONS
     const subtitle = answers.hasThroatPain
-      ? 'Te preparo algo suavecito...'
+      ? 'Vamos por algo suavecito...'
       : '¿Qué se te antoja?'
 
     return (
@@ -210,13 +211,13 @@ function DinnerInviteEasterEgg({ onClose }) {
 
   const renderStep4 = () => (
     <div className={`dinner-step dinner-step-final ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
-      <div className="dinner-final-hearts">💕✨💕</div>
+      <div className="dinner-final-icon">✨🍽️✨</div>
       <div className="dinner-final-message">
         <p className="dinner-final-text">
           Pau, paso por ti a las <strong>6:30pm</strong>.
         </p>
         <p className="dinner-final-text dinner-final-subtext">
-          Vístete normal y tranqui, como sea estás divina ❤️
+          Vístete normal y tranqui, como sea estás divina
         </p>
       </div>
       <button
@@ -250,8 +251,8 @@ function DinnerInviteEasterEgg({ onClose }) {
         ✕
       </button>
 
-      {/* Corazones flotantes de fondo */}
-      {showHearts && renderHearts()}
+      {/* Confeti en paso final */}
+      {showConfetti && renderConfetti()}
 
       {/* Indicador de progreso */}
       <div className="dinner-progress" aria-label={`Paso ${step} de 4`}>
