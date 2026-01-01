@@ -150,7 +150,19 @@ export function kaprekarSequence(startNum, maxIterations = 10) {
       easterEggType: 'chocolate'
     };
   }
-  
+
+  // Dinner Invite Easter Egg (0102 - 2 de enero)
+  if (validation.normalized === '0102') {
+    return {
+      success: true,
+      steps: [],
+      iterations: 0,
+      converged: false,
+      isEasterEgg: true,
+      easterEggType: 'dinner'
+    };
+  }
+
   const steps = [];
   let current = validation.normalized;
   let iterations = 0;
