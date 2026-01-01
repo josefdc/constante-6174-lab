@@ -467,6 +467,218 @@
    Accesibilidad - Reduced Motion
    ============================================ */
 
+/* ============================================
+   Modo Convencer
+   ============================================ */
+
+.dinner-step-convince {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 240, 245, 0.9) 100%
+  );
+}
+
+.dinner-emoji-bounce {
+  animation: dinner-emoji-shake 0.5s ease-in-out infinite;
+}
+
+@keyframes dinner-emoji-shake {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.convince-counter {
+  display: flex;
+  gap: 8px;
+  margin-top: var(--space-4);
+}
+
+.convince-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(212, 165, 116, 0.3);
+  transition: all var(--transition-base);
+}
+
+.convince-dot.active {
+  background: #d4a574;
+  transform: scale(1.2);
+}
+
+/* ============================================
+   Ruleta / Wheel
+   ============================================ */
+
+.dinner-step-wheel {
+  padding: var(--space-6);
+  max-width: 380px;
+}
+
+.wheel-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: var(--space-4) 0;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: #c45050;
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px rgba(212, 165, 116, 0.5),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.wheel.spinning {
+  /* La transición ya está definida arriba */
+}
+
+.wheel-segment {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  right: 0;
+  transform-origin: 0% 100%;
+  transform: rotate(var(--rotation)) skewY(-30deg);
+  overflow: hidden;
+}
+
+.wheel-segment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color);
+  transform: skewY(30deg);
+}
+
+.wheel-segment-content {
+  position: absolute;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: skewY(30deg) rotate(30deg);
+}
+
+.wheel-emoji {
+  font-size: 1.8rem;
+  transform: rotate(-30deg);
+}
+
+.dinner-btn-spin {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: var(--space-3) var(--space-6);
+  margin-top: var(--space-2);
+}
+
+.dinner-btn-spin:hover:not(:disabled) {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 4px 20px rgba(118, 75, 162, 0.4);
+  transform: translateY(-2px);
+}
+
+.dinner-btn-spin:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* Resultado de la ruleta */
+.wheel-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  animation: wheel-result-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes wheel-result-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.wheel-result-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-4);
+  background: linear-gradient(135deg, #fff5f5 0%, #fff0f5 100%);
+  border-radius: var(--radius-lg);
+  border: 2px solid #ff9a9e;
+}
+
+.wheel-result-emoji {
+  font-size: 3rem;
+  animation: dinner-pulse-icon 1s ease-in-out infinite;
+}
+
+.wheel-result-text {
+  font-size: 1.2rem;
+  font-weight: var(--font-bold);
+  color: #c45050;
+  margin-top: var(--space-2);
+}
+
+/* ============================================
+   Responsive - Ruleta
+   ============================================ */
+
+@media (max-width: 640px) {
+  .wheel-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .wheel-emoji {
+    font-size: 1.4rem;
+  }
+
+  .dinner-step-wheel {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 400px) {
+  .wheel-container {
+    width: 160px;
+    height: 160px;
+  }
+
+  .wheel-emoji {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================
+   Accesibilidad - Reduced Motion
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .dinner-easter-egg-container {
     animation: none;
@@ -478,9 +690,15 @@
   }
 
   .dinner-emoji-header,
+  .dinner-emoji-bounce,
   .dinner-final-icon,
-  .dinner-btn-final {
+  .dinner-btn-final,
+  .wheel-result-emoji {
     animation: none;
+  }
+
+  .wheel {
+    transition-duration: 0.5s;
   }
 
   .dinner-step.fade-in,
