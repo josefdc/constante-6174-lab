@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import './NostalgiaIntro.css'
 
 const MESSAGES = [
@@ -32,10 +32,11 @@ const MESSAGES = [
 
 function NostalgiaIntro({ onContinue }) {
   const [displayedLines, setDisplayedLines] = useState([])
-  const [currentLineIndex, setCurrentLineIndex] = useState(0)
   const [currentText, setCurrentText] = useState('')
   const [showButton, setShowButton] = useState(false)
   const [showStars, setShowStars] = useState(false)
+  const lineIndexRef = useRef(0)
+  const isTypingRef = useRef(false)
 
   const stars = useMemo(() => Array.from({ length: 50 }, (_, i) => ({
     id: i,
@@ -51,35 +52,47 @@ function NostalgiaIntro({ onContinue }) {
   }, [])
 
   useEffect(() => {
-    if (currentLineIndex >= MESSAGES.length) {
-      const timer = setTimeout(() => setShowButton(true), 800)
-      return () => clearTimeout(timer)
+    if (isTypingRef.current) return
+
+    const typeNextLine = () => {
+      if (lineIndexRef.current >= MESSAGES.length) {
+        setTimeout(() => setShowButton(true), 800)
+        return
+      }
+
+      const currentMessage = MESSAGES[lineIndexRef.current]
+
+      if (currentMessage === '') {
+        setDisplayedLines(prev => [...prev, ''])
+        lineIndexRef.current += 1
+        setTimeout(typeNextLine, 400)
+        return
+      }
+
+      isTypingRef.current = true
+      let charIndex = 0
+
+      const typeChar = () => {
+        if (charIndex <= currentMessage.length) {
+          setCurrentText(currentMessage.substring(0, charIndex))
+          charIndex++
+          setTimeout(typeChar, 35)
+        } else {
+          setDisplayedLines(prev => [...prev, currentMessage])
+          setCurrentText('')
+          lineIndexRef.current += 1
+          isTypingRef.current = false
+          setTimeout(typeNextLine, 300)
+        }
+      }
+
+      typeChar()
     }
 
-    const currentMessage = MESSAGES[currentLineIndex]
+    typeNextLine()
+  }, [])
 
-    if (currentMessage === '') {
-      setDisplayedLines(prev => [...prev, ''])
-      const timer = setTimeout(() => {
-        setCurrentLineIndex(prev => prev + 1)
-      }, 400)
-      return () => clearTimeout(timer)
-    }
-
-    if (currentText.length < currentMessage.length) {
-      const timer = setTimeout(() => {
-        setCurrentText(currentMessage.substring(0, currentText.length + 1))
-      }, 35)
-      return () => clearTimeout(timer)
-    } else {
-      setDisplayedLines(prev => [...prev, currentMessage])
-      setCurrentText('')
-      const timer = setTimeout(() => {
-        setCurrentLineIndex(prev => prev + 1)
-      }, 300)
-      return () => clearTimeout(timer)
-    }
-  }, [currentLineIndex, currentText])
+  const currentLineIndex = lineIndexRef.current
 
   return (
     <div className="nostalgia-overlay">
@@ -118,7 +131,7 @@ function NostalgiaIntro({ onContinue }) {
               {line}
             </p>
           ))}
-          {currentLineIndex < MESSAGES.length && currentText && (
+          {currentText && (
             <p className={`nostalgia-line typing ${
               currentLineIndex === 0 ? 'nostalgia-time' : ''
             }`}>
