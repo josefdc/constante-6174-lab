@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import emailjs from '@emailjs/browser'
 import './DinnerInviteEasterEgg.css'
+import NostalgiaIntro from './NostalgiaIntro'
 
 // ============================================
 // CONFIGURACIÓN EMAILJS - REEMPLAZAR CON TUS VALORES
@@ -48,6 +49,7 @@ const CONVINCE_ARGUMENTS = [
 ]
 
 function DinnerInviteEasterEgg({ onClose }) {
+  const [showIntro, setShowIntro] = useState(true)
   // Estados del wizard - ahora con strings para más flexibilidad
   const [currentView, setCurrentView] = useState('health') // health, excitement, convince, wheel, food, final
   const [answers, setAnswers] = useState({
@@ -400,6 +402,10 @@ function DinnerInviteEasterEgg({ onClose }) {
   }
 
   const progress = getProgress()
+
+  if (showIntro) {
+    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
+  }
 
   return (
     <div className="dinner-easter-egg-container" role="dialog" aria-label="Invitación a cenar">

@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import './ButterflyEasterEgg.css'
+import NostalgiaIntro from './NostalgiaIntro'
 
 // Configuración
 const CONFIG = {
@@ -120,6 +121,7 @@ const generateSparkles = ({ count, maxDelay, baseDuration, durationVariance, bas
   }))
 
 function ButterflyEasterEgg() {
+  const [showIntro, setShowIntro] = useState(true)
   const [showButterflies, setShowButterflies] = useState(false)
   const [showSparkles, setShowSparkles] = useState(false)
 
@@ -181,6 +183,10 @@ function ButterflyEasterEgg() {
       ✨
     </div>
   ), [])
+
+  if (showIntro) {
+    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
+  }
 
   return (
     <div className="butterfly-easter-egg-container" role="article" aria-label="Easter egg mariposas">

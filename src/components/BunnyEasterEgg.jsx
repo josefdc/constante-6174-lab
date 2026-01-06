@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import './BunnyEasterEgg.css'
+import NostalgiaIntro from './NostalgiaIntro'
 
 // Configuración
 const CONFIG = {
@@ -111,6 +112,7 @@ const generateClouds = ({ count, baseDuration, durationVariance }) =>
   }))
 
 function BunnyEasterEgg() {
+  const [showIntro, setShowIntro] = useState(true)
   const [showBunnies, setShowBunnies] = useState(false)
   const [showHearts, setShowHearts] = useState(false)
   const [showClouds, setShowClouds] = useState(false)
@@ -184,6 +186,10 @@ function BunnyEasterEgg() {
       ☁️
     </div>
   ), [])
+
+  if (showIntro) {
+    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
+  }
 
   return (
     <div className="bunny-easter-egg-container" role="article" aria-label="Easter egg conejito">

@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import './ChocolateEasterEgg.css'
+import NostalgiaIntro from './NostalgiaIntro'
 
 // Configuración
 const CONFIG = {
@@ -91,6 +92,7 @@ const generateGoldenSwirls = ({ count, baseDuration, durationVariance }) =>
   }))
 
 function ChocolateEasterEgg() {
+  const [showIntro, setShowIntro] = useState(true)
   const [showChocolates, setShowChocolates] = useState(false)
   const [showHearts, setShowHearts] = useState(false)
   const [showSparkles, setShowSparkles] = useState(false)
@@ -210,6 +212,10 @@ function ChocolateEasterEgg() {
       aria-hidden="true"
     />
   ), [])
+
+  if (showIntro) {
+    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
+  }
 
   return (
     <div className="chocolate-easter-egg-container" role="article" aria-label="Easter egg de chocolates">
