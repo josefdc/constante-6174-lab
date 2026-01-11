@@ -1,14 +1,28 @@
+/* ============================================
+   STEP DISPLAY - Mathematical Romance
+   Elegant digit cards showing the convergence
+   ============================================ */
+
 .step-display {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-6);
   padding: var(--space-8);
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: var(--radius-md);
-  min-height: 500px;
+  background: linear-gradient(
+    160deg,
+    rgba(20, 12, 28, 0.6) 0%,
+    rgba(10, 6, 18, 0.8) 100%
+  );
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(232, 180, 184, 0.1);
+  min-height: 480px;
   justify-content: center;
 }
+
+/* ============================================
+   STEP SECTIONS
+   ============================================ */
 
 .step-section {
   display: flex;
@@ -20,13 +34,18 @@
 }
 
 .step-label {
-  font-size: 1rem;
-  font-weight: var(--font-semibold);
-  color: var(--color-gray-600);
-  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--letter-spacing-wider);
+  margin: 0;
 }
+
+/* ============================================
+   DIGIT CARDS CONTAINER
+   ============================================ */
 
 .digit-container {
   display: flex;
@@ -34,93 +53,150 @@
   justify-content: center;
 }
 
+/* ============================================
+   INDIVIDUAL DIGIT CARDS
+   ============================================ */
+
 .digit {
-  width: clamp(48px, 10vw, 64px);
-  height: clamp(60px, 12vw, 80px);
+  width: clamp(52px, 12vw, 68px);
+  height: clamp(64px, 14vw, 84px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: var(--font-bold);
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: var(--font-weight-bold);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
-  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Stagger animation for digits */
+/* Inner glow effect */
+.digit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Stagger animations */
 .digit:nth-child(1) { animation-delay: 0s; }
 .digit:nth-child(2) { animation-delay: 0.08s; }
 .digit:nth-child(3) { animation-delay: 0.16s; }
 .digit:nth-child(4) { animation-delay: 0.24s; }
 
+/* Input digit - subtle neutral */
 .digit-input {
-  background: linear-gradient(135deg, #e0e7ff 0%, #cfd9ff 100%);
-  color: #4c51bf;
-  animation: staggerFadeIn 0.4s var(--transition-bounce) backwards;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 2px solid rgba(232, 180, 184, 0.2);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-sm);
+  animation: digitFadeIn 0.4s var(--ease-bounce) backwards;
 }
 
+/* Largest digit - gold accent */
 .digit-largest {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  color: #92400e;
-  animation: slideInFromTop 0.5s var(--transition-bounce) backwards;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 165, 116, 0.2) 0%,
+    rgba(212, 165, 116, 0.1) 100%
+  );
+  border: 2px solid rgba(212, 165, 116, 0.4);
+  color: var(--color-gold-300);
+  box-shadow:
+    var(--shadow-sm),
+    0 0 20px rgba(212, 165, 116, 0.15);
+  animation: digitSlideDown 0.5s var(--ease-bounce) backwards;
 }
 
+/* Smallest digit - rose accent */
 .digit-smallest {
-  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
-  color: var(--color-primary-700);
-  animation: slideInFromBottom 0.5s var(--transition-bounce) backwards;
+  background: linear-gradient(
+    135deg,
+    rgba(232, 180, 184, 0.2) 0%,
+    rgba(232, 180, 184, 0.1) 100%
+  );
+  border: 2px solid rgba(232, 180, 184, 0.4);
+  color: var(--color-rose-300);
+  box-shadow:
+    var(--shadow-sm),
+    0 0 20px rgba(232, 180, 184, 0.15);
+  animation: digitSlideUp 0.5s var(--ease-bounce) backwards;
 }
 
+/* Result digit - success green */
 .digit-result {
-  background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
-  color: #065f46;
-  animation: popIn 0.5s var(--transition-bounce) backwards;
+  background: linear-gradient(
+    135deg,
+    rgba(154, 184, 154, 0.25) 0%,
+    rgba(154, 184, 154, 0.15) 100%
+  );
+  border: 2px solid rgba(154, 184, 154, 0.5);
+  color: var(--color-success);
+  box-shadow:
+    var(--shadow-sm),
+    0 0 20px rgba(154, 184, 154, 0.2);
+  animation: digitPop 0.5s var(--ease-bounce) backwards;
 }
 
+/* Final 6174 - celebratory gold/rose */
 .digit-final {
-  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
-  color: #991b1b;
-  animation: celebrate 0.8s ease;
-  box-shadow: 0 0 24px rgba(220, 38, 38, 0.4);
+  background: var(--gradient-warm);
+  border: 2px solid transparent;
+  color: var(--color-dark-900);
+  box-shadow:
+    var(--shadow-glow-gold),
+    var(--shadow-glow-rose);
+  animation: digitCelebrate 0.8s ease forwards;
 }
 
-.number-value {
-  font-size: 1.2rem;
-  font-weight: var(--font-semibold);
-  color: var(--color-gray-800);
-}
-
-.calculation {
-  font-size: 1.1rem;
-  font-weight: var(--font-semibold);
-  color: var(--color-gray-600);
-  margin-top: var(--space-2);
-}
-
-.arrow-down {
-  font-size: 2rem;
-  color: var(--color-primary-500);
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.operation-symbol {
-  font-size: 3rem;
-  font-weight: var(--font-bold);
-  color: var(--color-primary-600);
-}
-
-.result-section {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: var(--space-6);
+.digit-final::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
   border-radius: var(--radius-md);
-  border: 3px solid rgba(102, 126, 234, 0.3);
+  background: var(--gradient-warm);
+  z-index: -1;
+  animation: glowPulse 1.5s ease-in-out infinite;
 }
 
-/* Animations */
-@keyframes slideInFromTop {
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.5;
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(12px);
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes digitFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes digitSlideDown {
   from {
     opacity: 0;
     transform: translateY(-30px);
@@ -131,7 +207,7 @@
   }
 }
 
-@keyframes slideInFromBottom {
+@keyframes digitSlideUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -142,12 +218,12 @@
   }
 }
 
-@keyframes popIn {
+@keyframes digitPop {
   0% {
     opacity: 0;
     transform: scale(0.5);
   }
-  50% {
+  60% {
     transform: scale(1.1);
   }
   100% {
@@ -156,99 +232,200 @@
   }
 }
 
-@keyframes celebrate {
+@keyframes digitCelebrate {
   0%, 100% {
     transform: scale(1) rotate(0deg);
   }
-  25% {
-    transform: scale(1.1) rotate(-5deg);
+  20% {
+    transform: scale(1.1) rotate(-3deg);
   }
-  75% {
-    transform: scale(1.1) rotate(5deg);
+  40% {
+    transform: scale(1.1) rotate(3deg);
   }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
+  60% {
+    transform: scale(1.05) rotate(-2deg);
   }
-  50% {
-    transform: translateY(10px);
+  80% {
+    transform: scale(1.05) rotate(2deg);
   }
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 640px) {
+/* ============================================
+   NUMBER VALUE & CALCULATION
+   ============================================ */
+
+.number-value {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.calculation {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-top: var(--space-2);
+}
+
+/* ============================================
+   ARROWS & SYMBOLS
+   ============================================ */
+
+.arrow-down {
+  font-size: 1.8rem;
+  color: var(--color-gold-400);
+  opacity: 0.7;
+  animation: arrowBounce 2s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.operation-symbol {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-rose-400);
+  opacity: 0.9;
+}
+
+/* ============================================
+   RESULT SECTION
+   ============================================ */
+
+.result-section {
+  background: linear-gradient(
+    135deg,
+    rgba(232, 180, 184, 0.08) 0%,
+    rgba(212, 165, 116, 0.08) 100%
+  );
+  backdrop-filter: blur(8px);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   RESPONSIVE - Tablet
+   ============================================ */
+
+@media (max-width: 768px) {
+  .step-display {
+    padding: var(--space-6);
+    gap: var(--space-5);
+    min-height: 420px;
+  }
+
   .digit {
-    width: 48px;
-    height: 60px;
+    width: 52px;
+    height: 64px;
     font-size: 1.75rem;
   }
-  
+
   .digit-container {
     gap: var(--space-2);
   }
-  
-  .step-display {
-    padding: var(--space-4);
-    min-height: 450px;
-  }
-  
+
   .step-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
-  
+
   .number-value {
     font-size: 1rem;
   }
-  
+
   .calculation {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
-  
+
   .arrow-down {
     font-size: 1.5rem;
   }
-  
+
   .operation-symbol {
     font-size: 2rem;
   }
+
+  .result-section {
+    padding: var(--space-5);
+  }
 }
 
-@media (max-width: 400px) {
-  .digit {
-    width: 42px;
-    height: 52px;
-    font-size: 1.5rem;
-  }
-  
-  .digit-container {
-    gap: var(--space-1);
-  }
-  
+/* ============================================
+   RESPONSIVE - Mobile
+   ============================================ */
+
+@media (max-width: 480px) {
   .step-display {
-    padding: var(--space-3);
-    min-height: 400px;
+    padding: var(--space-4);
+    gap: var(--space-4);
+    min-height: 380px;
   }
-  
+
+  .digit {
+    width: 46px;
+    height: 56px;
+    font-size: 1.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .digit-container {
+    gap: var(--space-2);
+  }
+
   .step-label {
     font-size: 0.75rem;
   }
-  
+
   .number-value {
     font-size: 0.9rem;
   }
-  
+
   .calculation {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .arrow-down {
+    font-size: 1.25rem;
+  }
+
+  .operation-symbol {
+    font-size: 1.75rem;
+  }
+
+  .result-section {
+    padding: var(--space-4);
   }
 }
 
-/* ========================================
+@media (max-width: 360px) {
+  .digit {
+    width: 40px;
+    height: 50px;
+    font-size: 1.35rem;
+  }
+
+  .digit-container {
+    gap: var(--space-1);
+  }
+
+  .step-display {
+    padding: var(--space-3);
+    min-height: 360px;
+  }
+}
+
+/* ============================================
    REDUCED MOTION
-   ======================================== */
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .digit-input,
   .digit-largest,
@@ -257,20 +434,23 @@
   .digit-final {
     animation: none;
   }
-  
+
   .digit:nth-child(1),
   .digit:nth-child(2),
   .digit:nth-child(3),
   .digit:nth-child(4) {
     animation-delay: 0s;
   }
-  
+
+  .digit-final::after {
+    animation: none;
+  }
+
   .arrow-down {
     animation: none;
   }
-  
+
   .digit {
     transition: none;
-    will-change: auto;
   }
 }

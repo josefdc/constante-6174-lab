@@ -1,49 +1,78 @@
+/* ============================================
+   KAPREKAR VISUALIZER - Mathematical Romance
+   The journey to 6174
+   ============================================ */
+
 .kaprekar-visualizer {
-  margin: var(--space-8) 0;
+  margin: var(--space-6) 0;
   padding: var(--space-8);
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: slideUp 0.5s var(--transition-base);
+  background: var(--gradient-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  border: var(--border-subtle);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: fadeInUp 0.5s var(--ease-out);
 }
+
+/* ============================================
+   PROGRESS INDICATOR
+   ============================================ */
 
 .progress-indicator {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-8);
-  padding-bottom: var(--space-4);
-  border-bottom: 2px solid var(--color-gray-200);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid rgba(232, 180, 184, 0.15);
 }
 
 .step-counter {
+  font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: var(--font-semibold);
-  color: var(--color-gray-600);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .convergence-badge {
-  background: var(--gradient-accent);
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: linear-gradient(
+    135deg,
+    rgba(232, 180, 184, 0.2) 0%,
+    rgba(212, 165, 116, 0.2) 100%
+  );
+  border: 1px solid rgba(212, 165, 116, 0.4);
+  color: var(--color-gold-200);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
-  font-weight: var(--font-bold);
-  font-size: 1rem;
-  animation: pulse 2s ease-in-out infinite;
-  box-shadow: var(--shadow-glow-accent);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-bold);
+  font-size: 0.95rem;
+  letter-spacing: var(--letter-spacing-wide);
+  animation: badgePulse 2s ease-in-out infinite;
+  box-shadow: var(--shadow-glow-gold);
 }
 
-@keyframes pulse {
+@keyframes badgePulse {
   0%, 100% {
-    transform: scale(1);
+    box-shadow: var(--shadow-glow-gold);
   }
   50% {
-    transform: scale(1.05);
+    box-shadow:
+      var(--shadow-glow-gold),
+      0 0 40px rgba(232, 180, 184, 0.3);
   }
 }
+
+/* ============================================
+   PLAYBACK CONTROLS
+   ============================================ */
 
 .controls {
   display: flex;
@@ -54,131 +83,221 @@
 }
 
 .btn-control {
-  background: var(--gradient-primary);
-  color: white;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(232, 180, 184, 0.2);
 }
 
 .btn-control:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text-primary);
+  border-color: rgba(232, 180, 184, 0.4);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-md);
 }
 
-.btn-control:focus-visible {
-  outline: 2px solid var(--color-primary-400);
-  outline-offset: 2px;
+.btn-control:active:not(:disabled) {
+  transform: translateY(0);
 }
 
+.btn-control:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Play button */
 .btn-play {
-  background: var(--gradient-success);
-  color: var(--color-gray-800);
+  background: linear-gradient(
+    135deg,
+    var(--color-success) 0%,
+    var(--color-success-dark) 100%
+  );
+  color: var(--color-dark-900);
+  border-color: transparent;
 }
 
-.btn-pause {
-  background: var(--gradient-warm);
-  color: var(--color-gray-800);
+.btn-play:hover:not(:disabled) {
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(154, 184, 154, 0.4);
 }
+
+/* Pause button */
+.btn-pause {
+  background: linear-gradient(
+    135deg,
+    var(--color-warning) 0%,
+    #d4a574 100%
+  );
+  color: var(--color-dark-900);
+  border-color: transparent;
+}
+
+.btn-pause:hover:not(:disabled) {
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(232, 200, 140, 0.4);
+}
+
+/* ============================================
+   STEP TIMELINE
+   ============================================ */
 
 .step-timeline {
   display: flex;
   justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   margin-top: var(--space-8);
   flex-wrap: wrap;
+  padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-lg);
 }
 
 .timeline-dot {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--color-gray-200);
-  color: var(--color-gray-500);
-  font-weight: var(--font-semibold);
-  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(232, 180, 184, 0.15);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.85rem;
   cursor: pointer;
   transition: all var(--transition-base);
-  border: 3px solid transparent;
-  will-change: transform;
-  animation: staggerFadeIn 0.3s var(--transition-bounce) backwards;
+  position: relative;
 }
 
-/* Stagger for timeline dots (up to 8 steps) */
-.timeline-dot:nth-child(1) { animation-delay: 0s; }
-.timeline-dot:nth-child(2) { animation-delay: 0.05s; }
-.timeline-dot:nth-child(3) { animation-delay: 0.1s; }
-.timeline-dot:nth-child(4) { animation-delay: 0.15s; }
-.timeline-dot:nth-child(5) { animation-delay: 0.2s; }
-.timeline-dot:nth-child(6) { animation-delay: 0.25s; }
-.timeline-dot:nth-child(7) { animation-delay: 0.3s; }
-.timeline-dot:nth-child(8) { animation-delay: 0.35s; }
+/* Stagger animation for timeline dots */
+.timeline-dot:nth-child(1) { animation: dotFadeIn 0.3s var(--ease-bounce) 0s both; }
+.timeline-dot:nth-child(2) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.05s both; }
+.timeline-dot:nth-child(3) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.1s both; }
+.timeline-dot:nth-child(4) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.15s both; }
+.timeline-dot:nth-child(5) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.2s both; }
+.timeline-dot:nth-child(6) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.25s both; }
+.timeline-dot:nth-child(7) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.3s both; }
+.timeline-dot:nth-child(8) { animation: dotFadeIn 0.3s var(--ease-bounce) 0.35s both; }
+
+@keyframes dotFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 .timeline-dot:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(232, 180, 184, 0.3);
+  color: var(--color-text-secondary);
   transform: scale(1.1);
-  background: var(--color-gray-300);
 }
 
-.timeline-dot:focus-visible {
-  outline: 2px solid var(--color-primary-400);
-  outline-offset: 2px;
-}
-
+/* Completed step */
 .timeline-dot.completed {
-  background: var(--gradient-primary);
-  color: white;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 165, 116, 0.3) 0%,
+    rgba(232, 180, 184, 0.3) 100%
+  );
+  border-color: rgba(212, 165, 116, 0.5);
+  color: var(--color-gold-200);
 }
 
+/* Active step */
 .timeline-dot.active {
-  background: var(--gradient-accent);
-  color: white;
+  background: var(--gradient-warm);
+  border-color: transparent;
+  color: var(--color-dark-900);
   transform: scale(1.2);
-  border-color: #fff;
-  box-shadow: var(--shadow-glow-accent);
+  box-shadow:
+    var(--shadow-glow-gold),
+    0 0 30px rgba(232, 180, 184, 0.3);
+  z-index: 1;
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 640px) {
-  .kaprekar-visualizer {
-    padding: var(--space-4);
-    margin: var(--space-6) 0;
+.timeline-dot.active::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 165, 116, 0.4);
+  animation: ringPulse 2s ease-out infinite;
+}
+
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - Tablet
+   ============================================ */
+
+@media (max-width: 768px) {
+  .kaprekar-visualizer {
+    padding: var(--space-6);
+    margin: var(--space-4) 0;
+  }
+
   .progress-indicator {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-3);
     margin-bottom: var(--space-6);
   }
-  
+
   .step-counter {
     font-size: 1rem;
   }
-  
+
   .convergence-badge {
     font-size: 0.9rem;
     padding: var(--space-2) var(--space-3);
   }
-  
+
   .controls {
     flex-direction: column;
     gap: var(--space-3);
   }
-  
+
   .btn-control {
     width: 100%;
+    justify-content: center;
     padding: var(--space-3) var(--space-5);
-    font-size: 0.95rem;
   }
-  
+
   .step-timeline {
     gap: var(--space-2);
+    padding: var(--space-3);
     margin-top: var(--space-6);
   }
-  
+
   .timeline-dot {
     width: 40px;
     height: 40px;
@@ -186,41 +305,75 @@
   }
 }
 
-@media (max-width: 400px) {
+/* ============================================
+   RESPONSIVE - Mobile
+   ============================================ */
+
+@media (max-width: 480px) {
   .kaprekar-visualizer {
-    padding: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
   }
-  
+
   .step-counter {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
-  
+
   .convergence-badge {
     font-size: 0.85rem;
   }
-  
+
   .timeline-dot {
     width: 36px;
     height: 36px;
     font-size: 0.75rem;
   }
+
+  .timeline-dot.active {
+    transform: scale(1.15);
+  }
 }
 
-/* ========================================
+@media (max-width: 360px) {
+  .timeline-dot {
+    width: 32px;
+    height: 32px;
+    font-size: 0.7rem;
+  }
+
+  .step-timeline {
+    gap: var(--space-1);
+  }
+}
+
+/* ============================================
    REDUCED MOTION
-   ======================================== */
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .kaprekar-visualizer {
     animation: none;
   }
-  
+
   .convergence-badge {
     animation: none;
   }
-  
+
   .timeline-dot {
-    transition: none;
     animation: none;
-    will-change: auto;
+    transition: none;
+  }
+
+  .timeline-dot.active::after {
+    animation: none;
+    display: none;
+  }
+
+  .btn-control {
+    transition: none;
+  }
+
+  .btn-control:hover:not(:disabled) {
+    transform: none;
   }
 }

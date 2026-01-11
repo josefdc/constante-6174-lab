@@ -1,10 +1,44 @@
+/* ============================================
+   INPUT PANEL - Mathematical Romance
+   Elegant number entry with warm accents
+   ============================================ */
+
 .input-panel {
-  margin: var(--space-8) 0;
+  margin: var(--space-6) 0;
   padding: var(--space-8);
-  background: var(--gradient-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg), 0 8px 32px rgba(102, 126, 234, 0.3);
-  animation: slideUp 0.4s var(--transition-base) 0.1s both;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  border: var(--border-subtle);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: fadeInUp 0.5s var(--ease-out) 0.1s both;
+  position: relative;
+}
+
+/* Subtle glow effect on hover */
+.input-panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 165, 116, 0.2) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(232, 180, 184, 0.2) 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.input-panel:hover::before {
+  opacity: 1;
 }
 
 .input-form {
@@ -14,97 +48,115 @@
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .input-group label {
-  color: white;
-  font-size: 1.1rem;
-  font-weight: var(--font-semibold);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gold-200);
+  letter-spacing: var(--letter-spacing-wide);
+  text-align: center;
 }
 
+/* Input controls row */
 .input-controls {
   display: flex;
   gap: var(--space-3);
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
 }
 
+/* Number input field */
 .input-controls input {
   flex: 1;
-  min-width: 200px;
-  padding: var(--space-3) var(--space-5);
-  font-size: 1.5rem;
-  font-weight: var(--font-bold);
+  min-width: 180px;
+  max-width: 240px;
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-semibold);
   text-align: center;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--color-gray-800);
-  letter-spacing: 0.5rem;
+  letter-spacing: 0.4em;
+  color: var(--color-gold-200);
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(212, 165, 116, 0.3);
+  border-radius: var(--radius-lg);
   transition: all var(--transition-base);
+  caret-color: var(--color-gold-400);
+}
+
+.input-controls input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+  font-size: 1.2rem;
+}
+
+.input-controls input:hover {
+  border-color: rgba(212, 165, 116, 0.5);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .input-controls input:focus {
   outline: none;
-  border-color: #fff;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3), var(--shadow-glow);
-  transform: scale(1.02);
+  border-color: var(--color-gold-400);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 0 0 4px rgba(212, 165, 116, 0.15),
+    var(--shadow-glow-gold);
 }
 
 .input-controls input.error {
-  border-color: var(--color-error-400);
-  background: #fff5f5;
+  border-color: var(--color-error);
+  background: rgba(216, 138, 138, 0.1);
 }
 
 .input-controls input:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
+/* ============================================
+   BUTTONS
+   ============================================ */
+
 .btn {
   position: relative;
-  overflow: hidden;
   padding: var(--space-3) var(--space-6);
-  font-size: 1rem;
-  font-weight: var(--font-semibold);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--transition-base);
+  overflow: hidden;
   white-space: nowrap;
 }
 
-/* Ripple effect */
-.btn::after {
+.btn::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-  transform: translate(-50%, -50%) scale(0);
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 50%
+  );
   opacity: 0;
-  pointer-events: none;
-  border-radius: inherit;
+  transition: opacity var(--transition-fast);
 }
 
-.btn:active:not(:disabled)::after {
-  animation: ripple 0.5s ease-out;
-}
-
-.btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.btn:hover::before {
+  opacity: 1;
 }
 
 .btn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.btn:focus-visible {
-  outline: 2px solid white;
-  outline-offset: 2px;
+  transform: scale(0.97);
 }
 
 .btn:disabled {
@@ -112,123 +164,188 @@
   cursor: not-allowed;
 }
 
+/* Primary button - Start */
 .btn-primary {
-  background: var(--gradient-accent);
-  color: white;
+  background: var(--gradient-warm);
+  color: var(--color-dark-900);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover:not(:disabled) {
-  box-shadow: var(--shadow-glow-accent);
+  box-shadow: var(--shadow-glow-gold);
+  transform: translateY(-2px);
 }
 
+/* Secondary button - Randomize */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--color-primary-500);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  color: var(--color-gold-300);
+  border: 1px solid rgba(212, 165, 116, 0.3);
   font-size: 1.5rem;
-  padding: var(--space-3) var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  min-width: 52px;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: white;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-200);
+  box-shadow: 0 0 16px rgba(212, 165, 116, 0.2);
+  transform: translateY(-2px);
 }
 
+/* Tertiary button - Reset */
 .btn-tertiary {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(232, 180, 184, 0.2);
 }
 
 .btn-tertiary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(232, 180, 184, 0.1);
+  border-color: rgba(232, 180, 184, 0.4);
+  color: var(--color-rose-300);
 }
 
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+
 .error-message {
-  color: var(--color-error-500);
-  background: rgba(255, 255, 255, 0.95);
+  display: inline-block;
+  color: var(--color-error);
+  background: rgba(216, 138, 138, 0.15);
+  border: 1px solid rgba(216, 138, 138, 0.3);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
-  font-weight: var(--font-semibold);
-  animation: shake 0.4s ease-in-out;
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  animation: shakeError 0.4s ease-in-out;
 }
 
-@keyframes shake {
+@keyframes shakeError {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 640px) {
+/* ============================================
+   RESPONSIVE - Tablet
+   ============================================ */
+
+@media (max-width: 768px) {
   .input-panel {
     padding: var(--space-6);
-    margin: var(--space-6) 0;
+    margin: var(--space-4) 0;
   }
-  
+
+  .input-group label {
+    font-size: 1.05rem;
+  }
+
+  .input-controls {
+    gap: var(--space-3);
+  }
+
+  .input-controls input {
+    min-width: 160px;
+    font-size: 1.5rem;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .btn {
+    padding: var(--space-3) var(--space-5);
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - Mobile
+   ============================================ */
+
+@media (max-width: 480px) {
+  .input-panel {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+  }
+
+  .input-group {
+    gap: var(--space-4);
+  }
+
   .input-group label {
     font-size: 1rem;
   }
-  
+
   .input-controls {
     flex-direction: column;
+    gap: var(--space-3);
   }
-  
+
   .input-controls input {
-    min-width: 100%;
-    font-size: 1.25rem;
-    padding: var(--space-3) var(--space-4);
-    letter-spacing: 0.4rem;
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    padding: var(--space-3);
   }
-  
+
   .btn {
     width: 100%;
-    padding: var(--space-3) var(--space-5);
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .input-panel {
-    padding: var(--space-5);
-    margin: var(--space-4) 0;
-  }
-  
-  .input-group label {
-    font-size: 0.95rem;
-  }
-  
-  .input-controls input {
-    font-size: 1.1rem;
-    padding: var(--space-2) var(--space-3);
-  }
-  
-  .btn {
+    padding: var(--space-3) var(--space-4);
     font-size: 0.9rem;
-    padding: var(--space-2) var(--space-4);
+  }
+
+  .btn-secondary {
+    order: -1;
+    font-size: 1.3rem;
   }
 }
 
-/* ========================================
+@media (max-width: 360px) {
+  .input-panel {
+    padding: var(--space-4);
+  }
+
+  .input-controls input {
+    font-size: 1.25rem;
+    letter-spacing: 0.25em;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================
    REDUCED MOTION
-   ======================================== */
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .input-panel {
     animation: none;
   }
-  
+
+  .input-panel::before {
+    transition: none;
+  }
+
   .error-message {
     animation: none;
   }
-  
-  .btn::after {
-    animation: none;
-  }
-  
+
   .btn,
   .input-controls input {
     transition: none;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: none;
   }
 }
