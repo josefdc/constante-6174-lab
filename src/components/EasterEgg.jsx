@@ -15,26 +15,25 @@ function EasterEgg() {
     line5: 'siempre me llevan a ti, Pau ✨'
   }), [])
 
-  const hearts = useMemo(() => Array.from({ length: 25 }, (_, i) => ({
+  const hearts = useMemo(() => Array.from({ length: 10 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
     delay: Math.random() * 4,
-    duration: 6 + Math.random() * 4,
+    duration: 8 + Math.random() * 4,
     size: 0.8 + Math.random() * 1.2,
     drift: -20 + Math.random() * 40,
     opacity: 0.4 + Math.random() * 0.4
   })), [])
 
-  const stars = useMemo(() => Array.from({ length: 35 }, (_, i) => ({
+  const stars = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
     delay: Math.random() * 5,
-    duration: 8 + Math.random() * 6,
-    size: 0.4 + Math.random() * 0.8,
-    twinkleDelay: Math.random() * 2
+    duration: 10 + Math.random() * 6,
+    size: 0.4 + Math.random() * 0.8
   })), [])
 
-  const constellationDots = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
+  const constellationDots = useMemo(() => Array.from({ length: 8 }, (_, i) => ({
     id: i,
     x: 10 + Math.random() * 80,
     y: 10 + Math.random() * 80,
@@ -128,7 +127,6 @@ function EasterEgg() {
                 left: `${star.left}%`,
                 animationDelay: `${star.delay}s`,
                 animationDuration: `${star.duration}s`,
-                '--twinkle-delay': `${star.twinkleDelay}s`,
                 '--star-size': `${star.size}rem`
               }}
             >

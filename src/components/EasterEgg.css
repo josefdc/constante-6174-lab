@@ -63,6 +63,7 @@
   opacity: 0;
   transition: opacity 2s var(--ease-out-expo);
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .aurora-layer.visible {
@@ -121,12 +122,12 @@
   background: var(--color-star-white);
   border-radius: 50%;
   animation: constellationPulse 4s var(--ease-in-out-soft) infinite;
-  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+  will-change: transform, opacity;
 }
 
 @keyframes constellationPulse {
   0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.2); }
+  50% { opacity: 0.7; transform: scale(1.15); }
 }
 
 /* ============================================
@@ -153,8 +154,6 @@
   text-shadow:
     0 0 10px rgba(254, 243, 199, 0.8),
     0 0 20px rgba(254, 243, 199, 0.4);
-  animation: starTwinkle 2s var(--ease-in-out-soft) infinite;
-  animation-delay: var(--twinkle-delay);
 }
 
 @keyframes starFall {
@@ -174,10 +173,6 @@
   }
 }
 
-@keyframes starTwinkle {
-  0%, 100% { opacity: 1; filter: brightness(1); }
-  50% { opacity: 0.5; filter: brightness(1.5); }
-}
 
 /* ============================================
    Hearts Layer
@@ -196,9 +191,6 @@
   opacity: 0;
   animation: heartFloat ease-in-out infinite;
   will-change: transform, opacity;
-  text-shadow:
-    0 0 15px rgba(249, 168, 212, 0.6),
-    0 0 30px rgba(236, 72, 153, 0.3);
 }
 
 @keyframes heartFloat {
@@ -283,23 +275,12 @@
     0 0 80px rgba(167, 139, 250, 0.3),
     0 4px 20px rgba(0, 0, 0, 0.3);
   animation: numberGlow 4s var(--ease-in-out-soft) infinite;
+  will-change: opacity;
 }
 
 @keyframes numberGlow {
-  0%, 100% {
-    filter: brightness(1);
-    text-shadow:
-      0 0 40px rgba(253, 164, 175, 0.5),
-      0 0 80px rgba(167, 139, 250, 0.3),
-      0 4px 20px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    filter: brightness(1.1);
-    text-shadow:
-      0 0 60px rgba(253, 164, 175, 0.7),
-      0 0 100px rgba(167, 139, 250, 0.5),
-      0 4px 30px rgba(0, 0, 0, 0.4);
-  }
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
 }
 
 /* ============================================
@@ -336,12 +317,13 @@
   border-radius: 26px;
   filter: blur(20px);
   opacity: 0.6;
-  animation: glowPulse 5s var(--ease-in-out-soft) infinite;
+  animation: glowPulse 6s var(--ease-in-out-soft) infinite;
+  will-change: opacity;
 }
 
 @keyframes glowPulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.02); }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.6; }
 }
 
 .card-content {
@@ -404,8 +386,8 @@
 }
 
 @keyframes dividerTwinkle {
-  0%, 100% { opacity: 0.6; transform: rotate(0deg) scale(1); }
-  50% { opacity: 1; transform: rotate(180deg) scale(1.2); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
 
 .message-main .message-line {
@@ -429,12 +411,13 @@
   text-shadow:
     0 0 20px rgba(249, 168, 212, 0.6),
     0 0 40px rgba(236, 72, 153, 0.3);
-  animation: namePulse 2s var(--ease-in-out-soft) infinite;
+  animation: namePulse 3s var(--ease-in-out-soft) infinite;
+  will-change: opacity;
 }
 
 @keyframes namePulse {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.2); }
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
 }
 
 /* Typing cursor */
@@ -474,7 +457,7 @@
   font-size: 1.5rem;
   color: var(--color-accent-gold);
   animation: sparkleDance 3s var(--ease-in-out-soft) infinite;
-  text-shadow: 0 0 15px rgba(252, 211, 77, 0.5);
+  will-change: transform, opacity;
 }
 
 .sparkle-1 { animation-delay: 0s; }
@@ -487,20 +470,12 @@
 
 @keyframes sparkleDance {
   0%, 100% {
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) scale(1);
     opacity: 0.7;
-  }
-  25% {
-    transform: translateY(-5px) rotate(10deg) scale(1.1);
-    opacity: 1;
   }
   50% {
-    transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 0.7;
-  }
-  75% {
-    transform: translateY(-3px) rotate(-10deg) scale(1.05);
-    opacity: 0.9;
+    transform: translateY(-5px) scale(1.1);
+    opacity: 1;
   }
 }
 
@@ -602,10 +577,17 @@
   }
 
   /* Reduce particle counts visually on mobile */
-  .floating-heart:nth-child(n+15),
-  .falling-star:nth-child(n+20),
-  .constellation-dot:nth-child(n+8) {
+  .floating-heart:nth-child(n+6),
+  .falling-star:nth-child(n+8),
+  .constellation-dot:nth-child(n+5) {
     display: none;
+  }
+
+  /* Disable blur on mobile for better performance */
+  .card-content {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(20, 20, 40, 0.9);
   }
 }
 
