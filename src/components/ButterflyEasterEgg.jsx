@@ -9,20 +9,20 @@ const CONFIG = {
     typingSpeed: 48
   },
   butterflies: {
-    count: 18,
-    baseDuration: 10,
-    durationVariance: 5
+    count: 8,
+    baseDuration: 12,
+    durationVariance: 6
   },
   sparkles: {
-    count: 35,
+    count: 12,
     maxDelay: 6,
-    baseDuration: 3,
+    baseDuration: 4,
     durationVariance: 3
   },
   petals: {
-    count: 15,
+    count: 8,
     maxDelay: 8,
-    baseDuration: 12,
+    baseDuration: 14,
     durationVariance: 6
   }
 }

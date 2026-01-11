@@ -31,25 +31,25 @@ function LetterEasterEgg() {
     ps: 'P.D. Este teorema sigue vigente. Las verdades son difíciles de negar... y la tuya es imposible.'
   }), [])
 
-  const envelopes = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
+  const envelopes = useMemo(() => Array.from({ length: 7 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
     delay: Math.random() * 4,
-    duration: 10 + Math.random() * 6,
+    duration: 12 + Math.random() * 6,
     rotation: -30 + Math.random() * 60,
     scale: 0.8 + Math.random() * 0.5
   })), [])
 
-  const petals = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+  const petals = useMemo(() => Array.from({ length: 10 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
     delay: Math.random() * 6,
-    duration: 8 + Math.random() * 6,
+    duration: 10 + Math.random() * 6,
     size: 0.6 + Math.random() * 0.6,
     drift: -40 + Math.random() * 80
   })), [])
 
-  const dustParticles = useMemo(() => Array.from({ length: 15 }, (_, i) => ({
+  const dustParticles = useMemo(() => Array.from({ length: 8 }, (_, i) => ({
     id: i,
     x: 10 + Math.random() * 80,
     y: 10 + Math.random() * 80,

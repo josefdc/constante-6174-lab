@@ -300,6 +300,7 @@
     0 4px 20px rgba(212, 160, 23, 0.5),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
   animation: circleGlow 4s var(--ease-in-out-soft) infinite;
+  will-change: opacity, transform;
 }
 
 .date-number {
@@ -311,16 +312,8 @@
 }
 
 @keyframes circleGlow {
-  0%, 100% {
-    box-shadow:
-      0 4px 20px rgba(212, 160, 23, 0.5),
-      inset 0 2px 4px rgba(255, 255, 255, 0.3);
-  }
-  50% {
-    box-shadow:
-      0 6px 30px rgba(212, 160, 23, 0.7),
-      inset 0 2px 4px rgba(255, 255, 255, 0.4);
-  }
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
 
 .date-subtitle {
@@ -586,10 +579,17 @@
   }
 
   /* Reduce particles on mobile */
-  .falling-petal:nth-child(n+10),
-  .garden-sparkle:nth-child(n+20),
-  .butterfly-flight:nth-child(n+12) {
+  .falling-petal:nth-child(n+5),
+  .garden-sparkle:nth-child(n+6),
+  .butterfly-flight:nth-child(n+5) {
     display: none;
+  }
+
+  /* Disable expensive blur on mobile */
+  .card-inner {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(30, 30, 40, 0.95);
   }
 }
 

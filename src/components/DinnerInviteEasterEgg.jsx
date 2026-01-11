@@ -70,7 +70,7 @@ function DinnerInviteEasterEgg({ onClose }) {
 
   // Generar confeti
   const confetti = useMemo(() =>
-    Array.from({ length: 25 }, (_, i) => ({
+    Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       delay: Math.random() * 0.8,

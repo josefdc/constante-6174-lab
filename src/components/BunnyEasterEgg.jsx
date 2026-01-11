@@ -10,26 +10,26 @@ const CONFIG = {
     typingSpeed: 55
   },
   bunnies: {
-    count: 12,
+    count: 6,
     maxDelay: 8,
-    baseDuration: 6,
+    baseDuration: 8,
     durationVariance: 4
   },
   hearts: {
-    count: 20,
+    count: 8,
     maxDelay: 6,
-    baseDuration: 5,
+    baseDuration: 7,
     durationVariance: 3
   },
   clouds: {
-    count: 6,
-    baseDuration: 25,
+    count: 4,
+    baseDuration: 30,
     durationVariance: 15
   },
   stars: {
-    count: 25,
+    count: 10,
     maxDelay: 5,
-    baseDuration: 3,
+    baseDuration: 4,
     durationVariance: 2
   }
 }

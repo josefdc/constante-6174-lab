@@ -167,18 +167,14 @@
   border-radius: var(--radius-md);
   background: var(--gradient-warm);
   z-index: -1;
+  filter: blur(10px);
   animation: glowPulse 1.5s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.5;
-    filter: blur(8px);
-  }
-  50% {
-    opacity: 0.8;
-    filter: blur(12px);
-  }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
 }
 
 /* ============================================
