@@ -3,7 +3,6 @@ import { Loader2, X } from 'lucide-react'
 import TorusScene from './TorusScene'
 import UIControls from './UIControls'
 import './PolytorusEasterEgg.css'
-import NostalgiaIntro from '../NostalgiaIntro'
 
 const INITIAL_THEME = {
   meshColor: '#4f46e5',
@@ -25,14 +24,9 @@ const INITIAL_GEOMETRY = {
 }
 
 function PolytorusEasterEgg({ onClose }) {
-  const [showIntro, setShowIntro] = useState(true)
   const [theme, setTheme] = useState(INITIAL_THEME)
   const [geometry, setGeometry] = useState(INITIAL_GEOMETRY)
   const [showControls, setShowControls] = useState(true)
-
-  if (showIntro) {
-    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
-  }
 
   return (
     <div className="polytorus-container">

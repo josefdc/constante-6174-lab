@@ -1,9 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import './EasterEgg.css'
-import NostalgiaIntro from './NostalgiaIntro'
 
 function EasterEgg() {
-  const [showIntro, setShowIntro] = useState(true)
   const [showHearts, setShowHearts] = useState(false)
   const [showStars, setShowStars] = useState(false)
   const [typedText, setTypedText] = useState({ line1: '', line2: '', line3: '', line4: '', line5: '' })
@@ -74,10 +72,6 @@ function EasterEgg() {
       intervals.forEach(interval => clearInterval(interval))
     }
   }, [messages])
-
-  if (showIntro) {
-    return <NostalgiaIntro onContinue={() => setShowIntro(false)} />
-  }
 
   return (
     <div className="easter-egg-container">
