@@ -1,11 +1,11 @@
 import { Settings, RotateCcw } from 'lucide-react'
 
 const PRESETS = [
-  { name: 'Índigo', meshColor: '#4f46e5', backgroundColor: '#030712' },
-  { name: 'Esmeralda', meshColor: '#10b981', backgroundColor: '#022c22' },
-  { name: 'Rosa', meshColor: '#ec4899', backgroundColor: '#1a0a14' },
-  { name: 'Dorado', meshColor: '#f59e0b', backgroundColor: '#1c1002' },
-  { name: 'Cian', meshColor: '#06b6d4', backgroundColor: '#021a1f' },
+  { name: 'Rosa', meshColor: '#e8b4b8', backgroundColor: '#0a0612' },
+  { name: 'Dorado', meshColor: '#d4a574', backgroundColor: '#0d0806' },
+  { name: 'Champagne', meshColor: '#f7e8d4', backgroundColor: '#12080a' },
+  { name: 'Lavanda', meshColor: '#b8a4c8', backgroundColor: '#0a0810' },
+  { name: 'Coral', meshColor: '#e8a4a0', backgroundColor: '#0c0808' },
 ]
 
 const DEFAULT_GEOMETRY = {
@@ -18,8 +18,8 @@ const DEFAULT_GEOMETRY = {
 }
 
 const DEFAULT_THEME = {
-  meshColor: '#4f46e5',
-  backgroundColor: '#030712',
+  meshColor: '#e8b4b8',
+  backgroundColor: '#0a0612',
   metalness: 0.8,
   roughness: 0.1,
 }

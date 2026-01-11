@@ -1,30 +1,36 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import './BunnyEasterEgg.css'
 
-// Configuración
 const CONFIG = {
   animation: {
-    bunniesDelay: 400,
-    heartsDelay: 600,
-    cloudsDelay: 300,
-    typingSpeed: 50
+    bunniesDelay: 300,
+    heartsDelay: 500,
+    cloudsDelay: 100,
+    starsDelay: 400,
+    typingSpeed: 55
   },
   bunnies: {
-    count: 20,
-    maxDelay: 6,
-    baseDuration: 4,
-    durationVariance: 3
+    count: 12,
+    maxDelay: 8,
+    baseDuration: 6,
+    durationVariance: 4
   },
   hearts: {
-    count: 30,
+    count: 20,
+    maxDelay: 6,
+    baseDuration: 5,
+    durationVariance: 3
+  },
+  clouds: {
+    count: 6,
+    baseDuration: 25,
+    durationVariance: 15
+  },
+  stars: {
+    count: 25,
     maxDelay: 5,
     baseDuration: 3,
     durationVariance: 2
-  },
-  clouds: {
-    count: 8,
-    baseDuration: 20,
-    durationVariance: 10
   }
 }
 
@@ -35,12 +41,11 @@ const MESSAGES = {
 }
 
 const TYPING_SCHEDULE = [
-  { lineKey: 'line1', delay: 1800 },
-  { lineKey: 'line2', delay: 4500 },
-  { lineKey: 'line3', delay: 7000 }
+  { lineKey: 'line1', delay: 1500 },
+  { lineKey: 'line2', delay: 4000 },
+  { lineKey: 'line3', delay: 6500 }
 ]
 
-// Custom hook para efecto de escritura
 const useTypingEffect = (messages, schedule, typingSpeed) => {
   const [typedText, setTypedText] = useState(
     Object.keys(messages).reduce((acc, key) => ({ ...acc, [key]: '' }), {})
@@ -81,15 +86,14 @@ const useTypingEffect = (messages, schedule, typingSpeed) => {
   return typedText
 }
 
-// Generadores optimizados
 const generateBunnies = ({ count, maxDelay, baseDuration, durationVariance }) =>
   Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: Math.random() * 90,
+    x: Math.random() * 90 + 5,
     delay: Math.random() * maxDelay,
     duration: baseDuration + Math.random() * durationVariance,
-    size: 0.8 + Math.random() * 0.7,
-    rotation: -15 + Math.random() * 30
+    size: 1 + Math.random() * 0.6,
+    drift: -30 + Math.random() * 60
   }))
 
 const generateHearts = ({ count, maxDelay, baseDuration, durationVariance }) =>
@@ -98,38 +102,57 @@ const generateHearts = ({ count, maxDelay, baseDuration, durationVariance }) =>
     x: Math.random() * 100,
     delay: Math.random() * maxDelay,
     duration: baseDuration + Math.random() * durationVariance,
-    size: 0.6 + Math.random() * 0.6
+    size: 0.5 + Math.random() * 0.5,
+    drift: -25 + Math.random() * 50
   }))
 
 const generateClouds = ({ count, baseDuration, durationVariance }) =>
   Array.from({ length: count }, (_, i) => ({
     id: i,
-    y: 10 + (i * 12) % 80,
-    delay: i * 2,
+    y: 5 + (i * 15) % 70,
+    delay: i * 3,
     duration: baseDuration + Math.random() * durationVariance,
-    size: 0.8 + Math.random() * 0.5
+    size: 0.9 + Math.random() * 0.5,
+    opacity: 0.4 + Math.random() * 0.3
+  }))
+
+const generateStars = ({ count, maxDelay, baseDuration, durationVariance }) =>
+  Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    delay: Math.random() * maxDelay,
+    duration: baseDuration + Math.random() * durationVariance,
+    size: 0.3 + Math.random() * 0.4
   }))
 
 function BunnyEasterEgg() {
   const [showBunnies, setShowBunnies] = useState(false)
   const [showHearts, setShowHearts] = useState(false)
   const [showClouds, setShowClouds] = useState(false)
+  const [showStars, setShowStars] = useState(false)
+  const [isRevealed, setIsRevealed] = useState(false)
 
   const typedText = useTypingEffect(MESSAGES, TYPING_SCHEDULE, CONFIG.animation.typingSpeed)
-  
+
   const bunnies = useMemo(() => generateBunnies(CONFIG.bunnies), [])
   const hearts = useMemo(() => generateHearts(CONFIG.hearts), [])
   const clouds = useMemo(() => generateClouds(CONFIG.clouds), [])
+  const stars = useMemo(() => generateStars(CONFIG.stars), [])
 
   useEffect(() => {
     const cloudsTimer = setTimeout(() => setShowClouds(true), CONFIG.animation.cloudsDelay)
     const bunniesTimer = setTimeout(() => setShowBunnies(true), CONFIG.animation.bunniesDelay)
     const heartsTimer = setTimeout(() => setShowHearts(true), CONFIG.animation.heartsDelay)
+    const starsTimer = setTimeout(() => setShowStars(true), CONFIG.animation.starsDelay)
+    const revealTimer = setTimeout(() => setIsRevealed(true), 200)
 
     return () => {
       clearTimeout(cloudsTimer)
       clearTimeout(bunniesTimer)
       clearTimeout(heartsTimer)
+      clearTimeout(starsTimer)
+      clearTimeout(revealTimer)
     }
   }, [])
 
@@ -141,11 +164,10 @@ function BunnyEasterEgg() {
         left: `${bunny.x}%`,
         animationDelay: `${bunny.delay}s`,
         animationDuration: `${bunny.duration}s`,
-        fontSize: `${bunny.size}rem`,
-        transform: `rotate(${bunny.rotation}deg)`
+        '--bunny-drift': `${bunny.drift}px`,
+        fontSize: `${bunny.size}rem`
       }}
-      role="img"
-      aria-label="conejito"
+      aria-hidden="true"
     >
       🐰
     </div>
@@ -159,78 +181,126 @@ function BunnyEasterEgg() {
         left: `${heart.x}%`,
         animationDelay: `${heart.delay}s`,
         animationDuration: `${heart.duration}s`,
+        '--heart-drift': `${heart.drift}px`,
         fontSize: `${heart.size}rem`
       }}
-      role="img"
-      aria-label="corazón"
+      aria-hidden="true"
     >
-      💕
+      ♥
     </div>
   ), [])
 
   const renderCloud = useCallback((cloud) => (
     <div
       key={cloud.id}
-      className="floating-cloud"
+      className="drifting-cloud"
       style={{
         top: `${cloud.y}%`,
         animationDelay: `${cloud.delay}s`,
         animationDuration: `${cloud.duration}s`,
+        '--cloud-opacity': cloud.opacity,
         fontSize: `${cloud.size}rem`
       }}
-      role="img"
-      aria-label="nube"
+      aria-hidden="true"
     >
-      ☁️
+      ☁
+    </div>
+  ), [])
+
+  const renderStar = useCallback((star) => (
+    <div
+      key={star.id}
+      className="twinkling-star"
+      style={{
+        left: `${star.x}%`,
+        top: `${star.y}%`,
+        animationDelay: `${star.delay}s`,
+        animationDuration: `${star.duration}s`,
+        fontSize: `${star.size}rem`
+      }}
+      aria-hidden="true"
+    >
+      ✦
     </div>
   ), [])
 
   return (
     <div className="bunny-easter-egg-container" role="article" aria-label="Easter egg conejito">
+      {/* Background layers */}
+      <div className="bg-layer bg-gradient-soft" />
+      <div className="bg-layer bg-glow-pink" />
+
+      {/* Drifting clouds */}
       {showClouds && (
-        <div className="clouds-background" aria-hidden="true">
+        <div className="clouds-layer" aria-hidden="true">
           {clouds.map(renderCloud)}
         </div>
       )}
 
+      {/* Twinkling stars */}
+      {showStars && (
+        <div className="stars-layer" aria-hidden="true">
+          {stars.map(renderStar)}
+        </div>
+      )}
+
+      {/* Floating bunnies */}
       {showBunnies && (
-        <div className="bunnies-container" aria-hidden="true">
+        <div className="bunnies-layer" aria-hidden="true">
           {bunnies.map(renderBunny)}
         </div>
       )}
 
+      {/* Floating hearts */}
       {showHearts && (
-        <div className="hearts-container" aria-hidden="true">
+        <div className="hearts-layer" aria-hidden="true">
           {hearts.map(renderHeart)}
         </div>
       )}
 
-      <div className="bunny-content">
+      {/* Main content */}
+      <div className={`bunny-content ${isRevealed ? 'revealed' : ''}`}>
+        {/* Header */}
         <header className="bunny-header">
-          <div className="date-bunny-container">
-            <span className="bunny-icon-large" role="img" aria-label="conejito">🐰</span>
-            <h1 className="date-number">1101</h1>
-            <span className="bunny-icon-large" role="img" aria-label="conejito">🐰</span>
+          <div className="date-decoration">
+            <span className="decoration-bunny">🐰</span>
+            <div className="date-pill">
+              <span className="date-number">1101</span>
+            </div>
+            <span className="decoration-bunny decoration-bunny-flip">🐰</span>
           </div>
           <p className="date-subtitle">Suspiro</p>
         </header>
 
-        <article className="bunny-message-box">
-          <p className="bunny-line italic" aria-live="polite">{typedText.line1}</p>
-          
-          <div className="bunny-spacer"></div>
-          
-          <p className="bunny-line main" aria-live="polite">{typedText.line2}</p>
-          
-          <div className="bunny-spacer-small"></div>
-          
-          <p className="bunny-line emoji-large" aria-live="polite">{typedText.line3}</p>
+        {/* Message card */}
+        <article className="bunny-card">
+          <div className="card-glow" />
+          <div className="card-inner">
+            <div className="message-section">
+              <p className="message-line italic" aria-live="polite">
+                {typedText.line1}
+              </p>
+
+              <div className="message-spacer" />
+
+              <p className="message-line main-text" aria-live="polite">
+                {typedText.line2}
+              </p>
+
+              <div className="message-spacer-small" />
+
+              <p className="message-line emoji-reveal" aria-live="polite">
+                {typedText.line3}
+              </p>
+            </div>
+          </div>
         </article>
 
+        {/* Footer */}
         <footer className="bunny-footer">
-          <span className="footer-icon" role="img" aria-label="zanahoria">🥕</span>
+          <span className="footer-icon">🥕</span>
           <span className="footer-text">Mi Suspiro</span>
-          <span className="footer-icon" role="img" aria-label="zanahoria">🥕</span>
+          <span className="footer-icon">🥕</span>
         </footer>
       </div>
     </div>

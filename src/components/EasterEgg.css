@@ -1,329 +1,640 @@
+/* ============================================
+   EASTER EGG - Ethereal Romance Theme
+   "Mathematical Constellation"
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ============================================
+   CSS Variables
+   ============================================ */
+.easter-egg-container {
+  --color-night-deep: #0a0a1a;
+  --color-night-mid: #141428;
+  --color-aurora-rose: rgba(219, 112, 147, 0.4);
+  --color-aurora-lavender: rgba(167, 139, 250, 0.35);
+  --color-aurora-blue: rgba(99, 179, 237, 0.3);
+  --color-aurora-mint: rgba(129, 230, 217, 0.25);
+  --color-star-gold: #fef3c7;
+  --color-star-white: #f8fafc;
+  --color-heart-rose: #f9a8d4;
+  --color-heart-deep: #ec4899;
+  --color-text-primary: #f1f5f9;
+  --color-text-soft: rgba(241, 245, 249, 0.85);
+  --color-text-muted: rgba(241, 245, 249, 0.6);
+  --color-accent-warm: #fda4af;
+  --color-accent-gold: #fcd34d;
+  --color-glass-bg: rgba(255, 255, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.15);
+
+  --font-display: 'Libre Baskerville', Georgia, serif;
+  --font-body: 'Cormorant Garamond', Georgia, serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* ============================================
+   Container
+   ============================================ */
 .easter-egg-container {
   position: relative;
   width: 100%;
-  min-height: 600px;
+  min-height: 650px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
-  border-radius: 16px;
+  background: linear-gradient(180deg,
+    var(--color-night-deep) 0%,
+    var(--color-night-mid) 50%,
+    #1a1a2e 100%
+  );
+  border-radius: 20px;
   padding: 3rem 2rem;
-  will-change: background-position;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.stars-background {
+/* ============================================
+   Aurora Background Layers
+   ============================================ */
+.aurora-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.aurora-layer.visible {
+  opacity: 1;
+}
+
+.aurora-1 {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, var(--color-aurora-lavender) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 30%, var(--color-aurora-rose) 0%, transparent 55%);
+  animation: auroraShift1 12s var(--ease-in-out-soft) infinite;
+}
+
+.aurora-2 {
+  background:
+    radial-gradient(ellipse 70% 45% at 70% 70%, var(--color-aurora-blue) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 30% 80%, var(--color-aurora-mint) 0%, transparent 45%);
+  animation: auroraShift2 15s var(--ease-in-out-soft) infinite;
+  animation-delay: -5s;
+}
+
+.aurora-3 {
+  background:
+    radial-gradient(ellipse 40% 30% at 50% 50%, var(--color-aurora-rose) 0%, transparent 50%);
+  animation: auroraShift3 10s var(--ease-in-out-soft) infinite;
+  animation-delay: -3s;
+}
+
+@keyframes auroraShift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5%, 3%) scale(1.05); }
+  66% { transform: translate(-3%, -2%) scale(0.98); }
+}
+
+@keyframes auroraShift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-4%, 4%) scale(1.03); }
+}
+
+@keyframes auroraShift3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+  50% { transform: translate(3%, -2%) rotate(5deg); opacity: 0.8; }
+}
+
+/* ============================================
+   Constellation Dots
+   ============================================ */
+.constellation-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.constellation-dot {
+  position: absolute;
+  background: var(--color-star-white);
+  border-radius: 50%;
+  animation: constellationPulse 4s var(--ease-in-out-soft) infinite;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes constellationPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* ============================================
+   Stars Layer
+   ============================================ */
+.stars-layer {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
 }
 
 .falling-star {
   position: absolute;
-  top: -50px;
-  opacity: 0;
-  animation: fallDown 8s ease-in infinite;
-  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  top: -30px;
+  animation: starFall linear infinite;
   will-change: transform, opacity;
 }
 
-@keyframes fallDown {
+.star-icon {
+  display: block;
+  font-size: var(--star-size);
+  color: var(--color-star-gold);
+  text-shadow:
+    0 0 10px rgba(254, 243, 199, 0.8),
+    0 0 20px rgba(254, 243, 199, 0.4);
+  animation: starTwinkle 2s var(--ease-in-out-soft) infinite;
+  animation-delay: var(--twinkle-delay);
+}
+
+@keyframes starFall {
   0% {
     transform: translateY(0) rotate(0deg);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
-  90% {
-    opacity: 0.6;
+  85% {
+    opacity: 0.7;
   }
   100% {
-    transform: translateY(650px) rotate(360deg);
+    transform: translateY(700px) rotate(180deg);
     opacity: 0;
   }
 }
 
-.hearts-background {
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.5; filter: brightness(1.5); }
+}
+
+/* ============================================
+   Hearts Layer
+   ============================================ */
+.hearts-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
 }
 
 .floating-heart {
   position: absolute;
-  bottom: -50px;
+  bottom: -40px;
+  color: var(--color-heart-rose);
   opacity: 0;
-  animation: floatUp 6s ease-in infinite;
-  filter: drop-shadow(0 0 5px rgba(255, 192, 203, 0.6));
+  animation: heartFloat ease-in-out infinite;
   will-change: transform, opacity;
+  text-shadow:
+    0 0 15px rgba(249, 168, 212, 0.6),
+    0 0 30px rgba(236, 72, 153, 0.3);
 }
 
-@keyframes floatUp {
+@keyframes heartFloat {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0) translateX(0) scale(0.8) rotate(-10deg);
     opacity: 0;
   }
   10% {
-    opacity: 0.8;
+    opacity: var(--heart-opacity);
+  }
+  50% {
+    transform: translateY(-350px) translateX(var(--drift)) scale(1) rotate(5deg);
   }
   90% {
-    opacity: 0.8;
+    opacity: var(--heart-opacity);
   }
   100% {
-    transform: translateY(-600px) rotate(360deg);
+    transform: translateY(-700px) translateX(calc(var(--drift) * 1.5)) scale(0.9) rotate(15deg);
     opacity: 0;
   }
 }
 
+/* ============================================
+   Main Content
+   ============================================ */
 .easter-egg-content {
   position: relative;
-  z-index: 1;
-  text-align: center;
-  max-width: 600px;
-  animation: fadeInScale 1s ease-out;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 580px;
+  width: 100%;
+  animation: contentReveal 1.2s var(--ease-out-expo) 0.3s both;
 }
 
-@keyframes fadeInScale {
+@keyframes contentReveal {
   0% {
     opacity: 0;
-    transform: scale(0.8);
+    transform: translateY(30px) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
+}
+
+/* ============================================
+   Number Display
+   ============================================ */
+.number-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.number-prefix,
+.number-suffix {
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+  animation: infinityPulse 3s var(--ease-in-out-soft) infinite;
+}
+
+.number-suffix {
+  animation-delay: 1.5s;
+}
+
+@keyframes infinityPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
 .number-display {
-  font-size: 5rem;
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
-  letter-spacing: 1rem;
-  animation: pulse 2s ease-in-out infinite;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 5.5rem);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.15em;
+  text-shadow:
+    0 0 40px rgba(253, 164, 175, 0.5),
+    0 0 80px rgba(167, 139, 250, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: numberGlow 4s var(--ease-in-out-soft) infinite;
 }
 
-.magic-glow {
-  position: relative;
-  animation: pulse 2s ease-in-out infinite, magicShine 3s linear infinite;
-  will-change: filter, transform;
-}
-
-@keyframes magicShine {
-  0% {
-    filter: brightness(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-  }
-  25% {
-    filter: brightness(1.3) drop-shadow(0 0 20px rgba(240, 147, 251, 0.8));
+@keyframes numberGlow {
+  0%, 100% {
+    filter: brightness(1);
+    text-shadow:
+      0 0 40px rgba(253, 164, 175, 0.5),
+      0 0 80px rgba(167, 139, 250, 0.3),
+      0 4px 20px rgba(0, 0, 0, 0.3);
   }
   50% {
-    filter: brightness(1) drop-shadow(0 0 30px rgba(118, 75, 162, 0.8));
+    filter: brightness(1.1);
+    text-shadow:
+      0 0 60px rgba(253, 164, 175, 0.7),
+      0 0 100px rgba(167, 139, 250, 0.5),
+      0 4px 30px rgba(0, 0, 0, 0.4);
   }
-  75% {
-    filter: brightness(1.3) drop-shadow(0 0 20px rgba(245, 87, 108, 0.8));
+}
+
+/* ============================================
+   Message Card - Glassmorphism
+   ============================================ */
+.message-card {
+  position: relative;
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  animation: cardReveal 1s var(--ease-out-expo) 0.6s both;
+}
+
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
   100% {
-    filter: brightness(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(1.05);
-    filter: brightness(1.2);
-  }
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    rgba(253, 164, 175, 0.4) 0%,
+    rgba(167, 139, 250, 0.3) 50%,
+    rgba(129, 230, 217, 0.2) 100%
+  );
+  border-radius: 26px;
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: glowPulse 5s var(--ease-in-out-soft) infinite;
 }
 
-.message-box {
-  background: rgba(255, 255, 255, 0.95);
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.02); }
+}
+
+.card-content {
+  position: relative;
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 24px;
   padding: 2.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
+}
+
+/* ============================================
+   Message Typography
+   ============================================ */
+.message-section {
+  text-align: center;
 }
 
 .message-line {
-  font-size: 1.2rem;
-  color: #4a5568;
-  margin: 0.5rem 0;
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-weight: 400;
+  color: var(--color-text-soft);
+  line-height: 1.8;
+  margin: 0.4rem 0;
+  min-height: 1.8em;
 }
 
-.highlight-number {
-  font-weight: 800;
-  color: #f5576c;
-  font-size: 1.3em;
+.message-intro .message-line {
+  font-style: italic;
+  color: var(--color-text-muted);
 }
 
-.message-spacer {
-  height: 1.5rem;
-}
-
-.message-main {
-  font-size: 1.4rem;
-  color: #2d3748;
-  margin: 0.5rem 0;
-  line-height: 1.6;
+.highlight-line {
   font-weight: 500;
 }
 
-.message-main.emphasis {
-  font-size: 1.6rem;
+.number-highlight {
+  font-family: var(--font-display);
   font-weight: 700;
-  margin-top: 1rem;
-  animation: glow 2s ease-in-out infinite;
+  font-style: normal;
+  color: var(--color-accent-warm);
+  font-size: 1.15em;
+  text-shadow: 0 0 20px rgba(253, 164, 175, 0.5);
 }
 
-.typing-text {
-  position: relative;
-  min-height: 1.8rem;
+.message-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
 }
 
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(245, 87, 108, 0.3);
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(245, 87, 108, 0.6);
-  }
+.divider-star {
+  font-size: 1.2rem;
+  color: var(--color-accent-gold);
+  animation: dividerTwinkle 2s var(--ease-in-out-soft) infinite;
+  text-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
 }
 
-.name {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 1.3em;
-  font-weight: 900;
+@keyframes dividerTwinkle {
+  0%, 100% { opacity: 0.6; transform: rotate(0deg) scale(1); }
+  50% { opacity: 1; transform: rotate(180deg) scale(1.2); }
 }
 
-.sparkle-container {
+.message-main .message-line {
+  font-style: normal;
+  color: var(--color-text-primary);
+}
+
+.message-emphasis {
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem) !important;
+  font-weight: 600 !important;
+  margin-top: 0.8rem !important;
+  color: var(--color-text-primary) !important;
+}
+
+.name-highlight {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--color-heart-rose);
+  font-size: 1.1em;
+  text-shadow:
+    0 0 20px rgba(249, 168, 212, 0.6),
+    0 0 40px rgba(236, 72, 153, 0.3);
+  animation: namePulse 2s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes namePulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+}
+
+/* Typing cursor */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: var(--color-accent-warm);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ============================================
+   Footer Sparkles
+   ============================================ */
+.footer-sparkles {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 2rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  animation: footerReveal 1s var(--ease-out-expo) 1s both;
+}
+
+@keyframes footerReveal {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .sparkle {
-  font-size: 2.5rem;
-  display: inline-block;
-  animation: twinkle 1.5s ease-in-out infinite;
+  font-size: 1.5rem;
+  color: var(--color-accent-gold);
+  animation: sparkleDance 3s var(--ease-in-out-soft) infinite;
+  text-shadow: 0 0 15px rgba(252, 211, 77, 0.5);
 }
 
-.sparkle:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.sparkle:nth-child(3) {
+.sparkle-1 { animation-delay: 0s; }
+.sparkle-2 {
   animation-delay: 1s;
+  font-size: 1.8rem;
+  color: var(--color-star-white);
 }
+.sparkle-3 { animation-delay: 2s; }
 
-@keyframes twinkle {
+@keyframes sparkleDance {
   0%, 100% {
-    transform: scale(1) rotate(0deg);
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-5px) rotate(10deg) scale(1.1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.3) rotate(180deg);
+    transform: translateY(0) rotate(0deg) scale(1);
     opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-3px) rotate(-10deg) scale(1.05);
+    opacity: 0.9;
   }
 }
 
-@media (max-width: 640px) {
+/* ============================================
+   Responsive - Tablet
+   ============================================ */
+@media (max-width: 768px) {
   .easter-egg-container {
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
+    min-height: 600px;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
   }
 
-  .number-display {
-    font-size: 3rem;
-    letter-spacing: 0.5rem;
+  .number-wrapper {
+    gap: 0.75rem;
     margin-bottom: 1.5rem;
   }
 
-  .message-box {
-    padding: 1.5rem 1rem;
+  .number-prefix,
+  .number-suffix {
+    font-size: 1.2rem;
   }
 
-  .message-line {
-    font-size: 0.95rem;
-    margin: 0.4rem 0;
+  .card-content {
+    padding: 2rem 1.5rem;
   }
 
-  .message-main {
-    font-size: 1rem;
-    margin: 0.4rem 0;
-    line-height: 1.5;
+  .message-divider {
+    margin: 1.2rem 0;
   }
 
-  .message-main.emphasis {
-    font-size: 1.15rem;
-    margin-top: 0.8rem;
-  }
-
-  .name {
-    font-size: 1.2em;
-  }
-
-  .sparkle {
-    font-size: 1.8rem;
-  }
-
-  .sparkle-container {
+  .footer-sparkles {
     gap: 1.5rem;
     margin-top: 1.5rem;
   }
 
-  .floating-heart {
-    font-size: 1.2rem;
+  .sparkle {
+    font-size: 1.3rem;
+  }
+
+  .sparkle-2 {
+    font-size: 1.5rem;
   }
 }
 
-@media (max-width: 400px) {
-  .number-display {
-    font-size: 2.5rem;
-    letter-spacing: 0.3rem;
+/* ============================================
+   Responsive - Mobile
+   ============================================ */
+@media (max-width: 480px) {
+  .easter-egg-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1.5rem 1rem;
+    border-radius: 0;
+  }
+
+  .number-wrapper {
+    margin-bottom: 1.2rem;
+  }
+
+  .number-prefix,
+  .number-suffix {
+    font-size: 1rem;
+  }
+
+  .card-content {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
+
+  .message-card {
+    border-radius: 20px;
+  }
+
+  .card-glow {
+    border-radius: 22px;
   }
 
   .message-line {
-    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0.3rem 0;
   }
 
-  .message-main {
-    font-size: 0.95rem;
+  .message-divider {
+    margin: 1rem 0;
   }
 
-  .message-main.emphasis {
-    font-size: 1.05rem;
+  .footer-sparkles {
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+  }
+
+  .sparkle {
+    font-size: 1.1rem;
+  }
+
+  .sparkle-2 {
+    font-size: 1.3rem;
+  }
+
+  /* Reduce particle counts visually on mobile */
+  .floating-heart:nth-child(n+15),
+  .falling-star:nth-child(n+20),
+  .constellation-dot:nth-child(n+8) {
+    display: none;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-layer,
+  .constellation-dot,
+  .falling-star,
+  .floating-heart,
+  .number-display,
+  .card-glow,
+  .sparkle,
+  .divider-star,
+  .name-highlight,
+  .cursor {
+    animation: none !important;
+  }
+
+  .aurora-layer.visible {
+    opacity: 0.7;
+  }
+
+  .constellation-dot {
+    opacity: 0.5;
+  }
+
+  .cursor {
+    opacity: 1;
   }
 }

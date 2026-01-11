@@ -5,9 +5,9 @@ import UIControls from './UIControls'
 import './PolytorusEasterEgg.css'
 
 const INITIAL_THEME = {
-  meshColor: '#4f46e5',
+  meshColor: '#e8b4b8',
   wireframeColor: '#ffffff',
-  backgroundColor: '#030712',
+  backgroundColor: '#0a0612',
   roughness: 0.1,
   metalness: 0.8,
   emissive: '#000000',

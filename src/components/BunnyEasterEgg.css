@@ -1,418 +1,643 @@
+/* ============================================
+   BUNNY EASTER EGG - Dreamy Pastel Theme
+   "Suspiro entre Nubes"
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Quicksand:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   CSS Variables
+   ============================================ */
+.bunny-easter-egg-container {
+  --color-sky-top: #e8d5f0;
+  --color-sky-mid: #f5e6f8;
+  --color-sky-bottom: #fce4ec;
+  --color-pink-soft: #f8bbd9;
+  --color-pink-warm: #f48fb1;
+  --color-pink-deep: #ec407a;
+  --color-lavender: #ce93d8;
+  --color-lavender-soft: #e1bee7;
+  --color-cream: #fdf5f8;
+  --color-rose-glow: rgba(244, 143, 177, 0.4);
+  --color-lavender-glow: rgba(206, 147, 216, 0.3);
+  --color-star-gold: #fff9c4;
+  --color-heart-pink: #f48fb1;
+  --color-text-plum: #6a1b4d;
+  --color-text-soft: #8e4873;
+  --color-text-muted: #ad6b94;
+  --color-card-bg: rgba(255, 255, 255, 0.92);
+
+  --font-display: 'Quicksand', sans-serif;
+  --font-body: 'Cormorant Garamond', Georgia, serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ============================================
+   Container
+   ============================================ */
 .bunny-easter-egg-container {
   position: relative;
   width: 100%;
-  min-height: 600px;
+  min-height: 650px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 192, 203, 0.3) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(173, 216, 230, 0.3) 0%, transparent 40%),
-    linear-gradient(to bottom, #FFE5EC 0%, #FFC4D6 30%, #FFB3C6 60%, #FFA6C1 100%);
-  background-size: 100% 100%, 100% 100%, 100% 100%;
-  animation: skyPulse 10s ease infinite;
-  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    var(--color-sky-top) 0%,
+    var(--color-sky-mid) 40%,
+    var(--color-sky-bottom) 100%
+  );
+  border-radius: 20px;
   padding: 3rem 2rem;
-  will-change: background-position;
 }
 
-@keyframes skyPulse {
-  0%, 100% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.05);
-  }
-}
-
-/* Nubes flotantes */
-.clouds-background {
+/* ============================================
+   Background Layers
+   ============================================ */
+.bg-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-gradient-soft {
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 20%, var(--color-lavender-glow) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 70% 80%, var(--color-rose-glow) 0%, transparent 50%);
+  animation: softPulse 12s var(--ease-in-out-soft) infinite;
+}
+
+.bg-glow-pink {
+  background: radial-gradient(
+    ellipse 50% 40% at 50% 50%,
+    rgba(244, 143, 177, 0.15) 0%,
+    transparent 50%
+  );
+  animation: centerGlow 8s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes softPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.03); }
+}
+
+@keyframes centerGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+
+/* ============================================
+   Clouds Layer
+   ============================================ */
+.clouds-layer {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
 }
 
-.floating-cloud {
+.drifting-cloud {
   position: absolute;
-  left: -10%;
-  animation: floatCloud var(--duration) linear infinite;
-  opacity: 0.6;
-  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.8));
+  left: -15%;
+  color: white;
+  opacity: 0;
+  animation: cloudDrift linear infinite;
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.8);
+  will-change: transform, left;
 }
 
-@keyframes floatCloud {
+@keyframes cloudDrift {
   0% {
-    left: -10%;
+    left: -15%;
+    opacity: 0;
     transform: translateY(0);
   }
+  5% {
+    opacity: var(--cloud-opacity);
+  }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
+  }
+  95% {
+    opacity: var(--cloud-opacity);
   }
   100% {
-    left: 110%;
+    left: 115%;
+    opacity: 0;
     transform: translateY(0);
   }
 }
 
-/* Conejitos saltando */
-.bunnies-container {
+/* ============================================
+   Stars Layer
+   ============================================ */
+.stars-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  pointer-events: none;
+}
+
+.twinkling-star {
+  position: absolute;
+  color: var(--color-star-gold);
+  opacity: 0;
+  animation: starTwinkle var(--ease-in-out-soft) infinite;
+  text-shadow: 0 0 8px rgba(255, 249, 196, 0.8);
+  will-change: opacity, transform;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) rotate(180deg);
+  }
+}
+
+/* ============================================
+   Bunnies Layer
+   ============================================ */
+.bunnies-layer {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
 }
 
 .floating-bunny {
   position: absolute;
   bottom: -10%;
-  animation: bunnyJump var(--duration) ease-in-out infinite;
-  filter: drop-shadow(0 4px 8px rgba(255, 182, 193, 0.6));
-  will-change: transform, bottom;
+  opacity: 0;
+  animation: bunnyFloat ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(244, 143, 177, 0.4));
+  will-change: transform, bottom, opacity;
 }
 
-@keyframes bunnyJump {
+@keyframes bunnyFloat {
   0% {
     bottom: -10%;
-    transform: translateX(0) rotate(var(--rotation)) scale(1);
+    transform: translateX(0) scale(0.8) rotate(-5deg);
     opacity: 0;
   }
   10% {
     opacity: 1;
   }
-  25% {
-    bottom: 60%;
-    transform: translateX(-20px) rotate(calc(var(--rotation) + 5deg)) scale(1.1);
+  30% {
+    transform: translateX(calc(var(--bunny-drift) * 0.3)) scale(1) rotate(3deg);
   }
   50% {
-    bottom: 30%;
-    transform: translateX(-40px) rotate(calc(var(--rotation) - 5deg)) scale(1);
+    bottom: 50%;
+    transform: translateX(calc(var(--bunny-drift) * 0.6)) scale(1.05) rotate(-3deg);
   }
-  75% {
-    bottom: 70%;
-    transform: translateX(-60px) rotate(calc(var(--rotation) + 3deg)) scale(1.05);
+  70% {
+    transform: translateX(calc(var(--bunny-drift) * 0.8)) scale(1) rotate(2deg);
   }
   90% {
     opacity: 1;
   }
   100% {
     bottom: 110%;
-    transform: translateX(-80px) rotate(var(--rotation)) scale(1);
+    transform: translateX(var(--bunny-drift)) scale(0.9) rotate(-5deg);
     opacity: 0;
   }
 }
 
-/* Corazones flotantes */
-.hearts-container {
+/* ============================================
+   Hearts Layer
+   ============================================ */
+.hearts-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
 }
 
 .floating-heart {
   position: absolute;
-  bottom: -10%;
-  animation: heartFloat var(--duration) ease-in-out infinite;
-  filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.4));
+  bottom: -8%;
+  color: var(--color-heart-pink);
+  opacity: 0;
+  animation: heartRise ease-in-out infinite;
+  text-shadow: 0 0 12px rgba(244, 143, 177, 0.5);
   will-change: transform, bottom, opacity;
 }
 
-@keyframes heartFloat {
+@keyframes heartRise {
   0% {
-    bottom: -10%;
+    bottom: -8%;
+    transform: translateX(0) scale(0.6) rotate(0deg);
     opacity: 0;
-    transform: translateX(0) scale(0.5) rotate(0deg);
   }
   10% {
-    opacity: 1;
+    opacity: 0.8;
   }
   50% {
-    transform: translateX(20px) scale(1) rotate(10deg);
+    transform: translateX(var(--heart-drift)) scale(1) rotate(15deg);
   }
   90% {
-    opacity: 1;
+    opacity: 0.6;
   }
   100% {
     bottom: 110%;
+    transform: translateX(calc(var(--heart-drift) * -0.5)) scale(0.7) rotate(-10deg);
     opacity: 0;
-    transform: translateX(-20px) scale(0.8) rotate(-10deg);
   }
 }
 
-/* Contenido */
+/* ============================================
+   Main Content
+   ============================================ */
 .bunny-content {
   position: relative;
-  z-index: 2;
-  max-width: 750px;
+  z-index: 10;
+  max-width: 560px;
   width: 100%;
-  animation: gentleBounce 1.5s ease-out;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 1s var(--ease-out-expo);
 }
 
-@keyframes gentleBounce {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  60% {
-    transform: translateY(-5px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.bunny-content.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
+/* ============================================
+   Header
+   ============================================ */
 .bunny-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.date-bunny-container {
+.date-decoration {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.bunny-icon-large {
-  font-size: 3rem;
-  animation: bunnyWiggle 2s ease-in-out infinite;
-  filter: drop-shadow(0 4px 8px rgba(255, 182, 193, 0.5));
+.decoration-bunny {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 8px rgba(244, 143, 177, 0.4));
+  animation: bunnyWiggle 2.5s var(--ease-in-out-soft) infinite;
+}
+
+.decoration-bunny-flip {
+  transform: scaleX(-1);
+  animation-delay: 1.25s;
 }
 
 @keyframes bunnyWiggle {
-  0%, 100% {
-    transform: rotate(-5deg) scale(1);
-  }
-  50% {
-    transform: rotate(5deg) scale(1.1);
-  }
+  0%, 100% { transform: translateY(0) rotate(-5deg) scaleX(1); }
+  50% { transform: translateY(-5px) rotate(5deg) scaleX(1); }
+}
+
+.decoration-bunny-flip {
+  animation-name: bunnyWiggleFlip;
+}
+
+@keyframes bunnyWiggleFlip {
+  0%, 100% { transform: translateY(0) rotate(5deg) scaleX(-1); }
+  50% { transform: translateY(-5px) rotate(-5deg) scaleX(-1); }
+}
+
+.date-pill {
+  background: linear-gradient(
+    135deg,
+    var(--color-pink-soft) 0%,
+    var(--color-pink-warm) 100%
+  );
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  box-shadow:
+    0 4px 20px rgba(244, 143, 177, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  animation: pillGlow 4s var(--ease-in-out-soft) infinite;
 }
 
 .date-number {
-  font-size: 4rem;
-  font-weight: 900;
-  color: #FF69B4;
-  text-shadow: 
-    0 0 20px rgba(255, 182, 193, 0.8),
-    0 0 40px rgba(255, 105, 180, 0.6),
-    0 4px 20px rgba(255, 192, 203, 0.4);
-  letter-spacing: 0.6rem;
-  animation: softGlow 3s ease-in-out infinite;
-  font-family: 'Georgia', serif;
-  margin: 0;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.15em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-@keyframes softGlow {
+@keyframes pillGlow {
   0%, 100% {
-    text-shadow: 
-      0 0 20px rgba(255, 182, 193, 0.8),
-      0 0 40px rgba(255, 105, 180, 0.6),
-      0 4px 20px rgba(255, 192, 203, 0.4);
-    transform: scale(1);
+    box-shadow:
+      0 4px 20px rgba(244, 143, 177, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.4);
   }
   50% {
-    text-shadow: 
-      0 0 30px rgba(255, 182, 193, 1),
-      0 0 60px rgba(255, 105, 180, 0.8),
-      0 4px 20px rgba(255, 192, 203, 0.6);
-    transform: scale(1.02);
+    box-shadow:
+      0 6px 30px rgba(244, 143, 177, 0.6),
+      inset 0 2px 4px rgba(255, 255, 255, 0.5);
   }
 }
 
 .date-subtitle {
-  font-size: 1.3rem;
-  color: #FF69B4;
-  text-shadow: 0 2px 8px rgba(255, 182, 193, 0.6);
-  font-weight: 700;
-  margin-top: 0.5rem;
-  letter-spacing: 0.2em;
-  font-style: italic;
-}
-
-.bunny-message-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2.5rem 2rem;
-  border-radius: 25px;
-  box-shadow: 
-    0 20px 60px rgba(255, 105, 180, 0.3),
-    0 10px 30px rgba(255, 182, 193, 0.2),
-    inset 0 0 60px rgba(255, 192, 203, 0.15);
-  backdrop-filter: blur(10px);
-  border: 3px solid rgba(255, 182, 193, 0.4);
-  transition: transform 0.3s ease;
-}
-
-.bunny-line {
+  font-family: var(--font-display);
   font-size: 1.2rem;
-  color: #8B4789;
-  margin: 0.8rem 0;
-  line-height: 1.9;
-  font-family: 'Georgia', serif;
-  min-height: 2rem;
-}
-
-.bunny-line.italic {
+  font-weight: 600;
   font-style: italic;
-  color: #9B59B6;
-  font-size: 1.15rem;
+  color: var(--color-text-soft);
+  letter-spacing: 0.2em;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
-.bunny-line.main {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #FF1493;
+/* ============================================
+   Message Card
+   ============================================ */
+.bunny-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    rgba(244, 143, 177, 0.5) 0%,
+    rgba(206, 147, 216, 0.4) 50%,
+    rgba(244, 143, 177, 0.3) 100%
+  );
+  border-radius: 26px;
+  filter: blur(18px);
+  opacity: 0.5;
+  animation: cardGlowPulse 5s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes cardGlowPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.02); }
+}
+
+.card-inner {
+  position: relative;
+  background: var(--color-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(244, 143, 177, 0.25);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+}
+
+/* ============================================
+   Message Typography
+   ============================================ */
+.message-section {
   text-align: center;
-  text-shadow: 0 2px 4px rgba(255, 105, 180, 0.3);
 }
 
-.bunny-line.emoji-large {
-  font-size: 3rem;
-  text-align: center;
-  animation: bunnyPulse 2s ease-in-out infinite;
+.message-line {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  color: var(--color-text-soft);
+  line-height: 1.8;
+  margin: 0.4rem 0;
+  min-height: 1.6em;
 }
 
-@keyframes bunnyPulse {
-  0%, 100% {
-    transform: scale(1);
-    filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
-  }
-  50% {
-    transform: scale(1.15);
-    filter: drop-shadow(0 6px 12px rgba(255, 105, 180, 0.5));
-  }
+.message-line.italic {
+  font-style: italic;
+  color: var(--color-text-muted);
 }
 
-.bunny-spacer {
+.message-spacer {
   height: 1.2rem;
 }
 
-.bunny-spacer-small {
+.message-spacer-small {
   height: 0.8rem;
 }
 
+.main-text {
+  font-size: clamp(1.2rem, 3.5vw, 1.45rem);
+  font-weight: 600;
+  color: var(--color-text-plum);
+  font-style: normal;
+}
+
+.emoji-reveal {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  margin-top: 1rem;
+  animation: emojiPop 0.6s var(--ease-bounce) both;
+  animation-delay: 6.5s;
+  filter: drop-shadow(0 4px 12px rgba(244, 143, 177, 0.4));
+}
+
+@keyframes emojiPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Footer
+   ============================================ */
 .bunny-footer {
-  text-align: center;
-  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .footer-icon {
-  font-size: 2rem;
-  animation: carrotBounce 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 2px 6px rgba(255, 140, 0, 0.5));
+  font-size: 1.5rem;
+  animation: carrotBounce 2s var(--ease-in-out-soft) infinite;
+  filter: drop-shadow(0 2px 6px rgba(255, 140, 0, 0.3));
+}
+
+.footer-icon:last-child {
+  animation-delay: 1s;
 }
 
 @keyframes carrotBounce {
-  0%, 100% {
-    transform: translateY(0) rotate(-5deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(5deg);
-  }
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-6px) rotate(5deg); }
 }
 
 .footer-text {
-  color: #FF69B4;
-  font-size: 1.4rem;
-  font-weight: 700;
-  text-shadow: 0 2px 12px rgba(255, 182, 193, 0.6);
-  letter-spacing: 0.15em;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
   font-style: italic;
+  color: var(--color-text-soft);
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
-/* Mobile responsiveness */
-@media (max-width: 640px) {
+/* ============================================
+   Responsive - Tablet
+   ============================================ */
+@media (max-width: 768px) {
   .bunny-easter-egg-container {
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
+    min-height: 600px;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
   }
 
-  .date-bunny-container {
-    gap: 1rem;
+  .date-decoration {
+    gap: 0.75rem;
   }
 
-  .bunny-icon-large {
-    font-size: 2.5rem;
-  }
-
-  .date-number {
-    font-size: 3rem;
-    letter-spacing: 0.4rem;
-  }
-
-  .date-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .bunny-message-box {
-    padding: 1.8rem 1.5rem;
-  }
-
-  .bunny-line {
-    font-size: 1.05rem;
-  }
-
-  .bunny-line.italic {
-    font-size: 1rem;
-  }
-
-  .bunny-line.main {
-    font-size: 1.2rem;
-  }
-
-  .bunny-line.emoji-large {
-    font-size: 2.5rem;
-  }
-
-  .footer-icon {
+  .decoration-bunny {
     font-size: 1.8rem;
   }
 
-  .footer-text {
-    font-size: 1.2rem;
+  .date-pill {
+    padding: 0.6rem 1.5rem;
   }
 
-  .floating-bunny,
-  .floating-heart {
-    font-size: 1.2rem;
+  .card-inner {
+    padding: 2rem 1.5rem;
+  }
+
+  .bunny-footer {
+    margin-top: 1.5rem;
   }
 }
 
-@media (max-width: 400px) {
-  .date-number {
-    font-size: 2.5rem;
-    letter-spacing: 0.3rem;
+/* ============================================
+   Responsive - Mobile
+   ============================================ */
+@media (max-width: 480px) {
+  .bunny-easter-egg-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1.5rem 1rem;
+    border-radius: 0;
   }
 
-  .bunny-line {
+  .bunny-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .date-decoration {
+    gap: 0.5rem;
+  }
+
+  .decoration-bunny {
+    font-size: 1.5rem;
+  }
+
+  .date-pill {
+    padding: 0.5rem 1.25rem;
+  }
+
+  .date-subtitle {
     font-size: 1rem;
+    letter-spacing: 0.15em;
   }
 
-  .bunny-line.main {
-    font-size: 1.15rem;
+  .card-inner {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
   }
 
-  .bunny-line.emoji-large {
-    font-size: 2rem;
+  .bunny-card {
+    border-radius: 20px;
+  }
+
+  .card-glow {
+    border-radius: 22px;
+  }
+
+  .message-line {
+    line-height: 1.7;
+    margin: 0.3rem 0;
+  }
+
+  .message-spacer {
+    height: 1rem;
+  }
+
+  .message-spacer-small {
+    height: 0.5rem;
+  }
+
+  .emoji-reveal {
+    margin-top: 0.75rem;
+  }
+
+  .bunny-footer {
+    margin-top: 1.2rem;
+    gap: 0.75rem;
+  }
+
+  .footer-icon {
+    font-size: 1.3rem;
+  }
+
+  .footer-text {
+    font-size: 0.95rem;
+  }
+
+  /* Reduce particles on mobile */
+  .floating-bunny:nth-child(n+8),
+  .floating-heart:nth-child(n+12),
+  .twinkling-star:nth-child(n+15),
+  .drifting-cloud:nth-child(n+4) {
+    display: none;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .bg-gradient-soft,
+  .bg-glow-pink,
+  .drifting-cloud,
+  .twinkling-star,
+  .floating-bunny,
+  .floating-heart,
+  .decoration-bunny,
+  .date-pill,
+  .card-glow,
+  .emoji-reveal,
+  .footer-icon {
+    animation: none !important;
+  }
+
+  .bunny-content {
+    transition: none;
+  }
+
+  .bunny-content.revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .twinkling-star {
+    opacity: 0.6;
+  }
+
+  .emoji-reveal {
+    opacity: 1;
+    transform: scale(1);
   }
 }

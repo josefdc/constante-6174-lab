@@ -3,7 +3,8 @@ import './LetterEasterEgg.css'
 
 function LetterEasterEgg() {
   const [showEnvelopes, setShowEnvelopes] = useState(false)
-  const [showInk, setShowInk] = useState(false)
+  const [showPetals, setShowPetals] = useState(false)
+  const [isRevealed, setIsRevealed] = useState(false)
   const [typedText, setTypedText] = useState({
     greeting: '',
     line1: '',
@@ -30,27 +31,39 @@ function LetterEasterEgg() {
     ps: 'P.D. Este teorema sigue vigente. Las verdades son difíciles de negar... y la tuya es imposible.'
   }), [])
 
-  const envelopes = useMemo(() => Array.from({ length: 15 }, (_, i) => ({
+  const envelopes = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 8 + Math.random() * 4,
-    rotation: Math.random() * 360
+    delay: Math.random() * 4,
+    duration: 10 + Math.random() * 6,
+    rotation: -30 + Math.random() * 60,
+    scale: 0.8 + Math.random() * 0.5
   })), [])
 
-  const inkDrops = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+  const petals = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
-    delay: Math.random() * 5,
-    duration: 6 + Math.random() * 4
+    delay: Math.random() * 6,
+    duration: 8 + Math.random() * 6,
+    size: 0.6 + Math.random() * 0.6,
+    drift: -40 + Math.random() * 80
+  })), [])
+
+  const dustParticles = useMemo(() => Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    x: 10 + Math.random() * 80,
+    y: 10 + Math.random() * 80,
+    size: 2 + Math.random() * 3,
+    delay: Math.random() * 4
   })), [])
 
   useEffect(() => {
     const timers = []
     const intervals = []
-    
-    timers.push(setTimeout(() => setShowEnvelopes(true), 500))
-    timers.push(setTimeout(() => setShowInk(true), 300))
+
+    timers.push(setTimeout(() => setShowPetals(true), 200))
+    timers.push(setTimeout(() => setShowEnvelopes(true), 600))
+    timers.push(setTimeout(() => setIsRevealed(true), 400))
 
     const typeText = (text, lineKey, startDelay) => {
       const timer = setTimeout(() => {
@@ -65,22 +78,22 @@ function LetterEasterEgg() {
           } else {
             clearInterval(interval)
           }
-        }, 40)
+        }, 42)
         intervals.push(interval)
       }, startDelay)
       timers.push(timer)
     }
 
     typeText(messages.greeting, 'greeting', 1000)
-    typeText(messages.line1, 'line1', 2200)
-    typeText(messages.line2, 'line2', 3200)
-    typeText(messages.line3, 'line3', 4500)
-    typeText(messages.line4, 'line4', 6200)
-    typeText(messages.line5, 'line5', 7800)
-    typeText(messages.line6, 'line6', 9000)
-    typeText(messages.line7, 'line7', 10500)
-    typeText(messages.line8, 'line8', 11800)
-    typeText(messages.ps, 'ps', 13200)
+    typeText(messages.line1, 'line1', 2000)
+    typeText(messages.line2, 'line2', 3000)
+    typeText(messages.line3, 'line3', 4300)
+    typeText(messages.line4, 'line4', 6000)
+    typeText(messages.line5, 'line5', 7600)
+    typeText(messages.line6, 'line6', 8800)
+    typeText(messages.line7, 'line7', 10300)
+    typeText(messages.line8, 'line8', 11600)
+    typeText(messages.ps, 'ps', 13000)
 
     return () => {
       timers.forEach(timer => clearTimeout(timer))
@@ -90,8 +103,47 @@ function LetterEasterEgg() {
 
   return (
     <div className="letter-easter-egg-container">
+      {/* Ambient dust particles */}
+      <div className="dust-layer">
+        {dustParticles.map(particle => (
+          <div
+            key={`dust-${particle.id}`}
+            className="dust-particle"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              animationDelay: `${particle.delay}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Floating petals */}
+      {showPetals && (
+        <div className="petals-layer">
+          {petals.map(petal => (
+            <div
+              key={`petal-${petal.id}`}
+              className="falling-petal"
+              style={{
+                left: `${petal.left}%`,
+                animationDelay: `${petal.delay}s`,
+                animationDuration: `${petal.duration}s`,
+                '--petal-drift': `${petal.drift}px`,
+                fontSize: `${petal.size}rem`
+              }}
+            >
+              ❀
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Floating envelopes */}
       {showEnvelopes && (
-        <div className="envelopes-background">
+        <div className="envelopes-layer">
           {envelopes.map(envelope => (
             <div
               key={`envelope-${envelope.id}`}
@@ -100,65 +152,74 @@ function LetterEasterEgg() {
                 left: `${envelope.left}%`,
                 animationDelay: `${envelope.delay}s`,
                 animationDuration: `${envelope.duration}s`,
-                transform: `rotate(${envelope.rotation}deg)`
+                '--envelope-rotation': `${envelope.rotation}deg`,
+                '--envelope-scale': envelope.scale
               }}
             >
-              💌
+              <span className="envelope-icon">✉</span>
             </div>
           ))}
         </div>
       )}
 
-      {showInk && (
-        <div className="ink-background">
-          {inkDrops.map(drop => (
-            <div
-              key={`ink-${drop.id}`}
-              className="ink-drop"
-              style={{
-                left: `${drop.left}%`,
-                animationDelay: `${drop.delay}s`,
-                animationDuration: `${drop.duration}s`
-              }}
-            >
-              ✒️
+      {/* Main Letter Content */}
+      <div className={`letter-content ${isRevealed ? 'revealed' : ''}`}>
+        {/* Date Seal */}
+        <div className="letter-seal">
+          <div className="seal-outer">
+            <div className="seal-inner">
+              <span className="seal-date">0710</span>
             </div>
-          ))}
-        </div>
-      )}
-
-      <div className="letter-content">
-        <div className="letter-header">
-          <div className="date-stamp">0710</div>
+          </div>
         </div>
 
+        {/* Letter Paper */}
         <div className="letter-paper">
-          <div className="paper-texture"></div>
-          
-          <p className="letter-greeting">{typedText.greeting}</p>
-          
-          <p className="letter-line">{typedText.line1}</p>
-          <p className="letter-line emphasis">{typedText.line2}</p>
-          
-          <div className="letter-spacer"></div>
-          
-          <p className="letter-line">{typedText.line3}</p>
-          <p className="letter-line">{typedText.line4}</p>
-          <p className="letter-line">{typedText.line5}</p>
-          
-          <div className="letter-spacer"></div>
-          
-          <p className="letter-line main">{typedText.line6}</p>
-          <p className="letter-line main">{typedText.line7}</p>
-          <p className="letter-line main">{typedText.line8}</p>
-          
-          <div className="letter-spacer-large"></div>
-          
-          <p className="letter-ps">{typedText.ps}</p>
+          <div className="paper-edge paper-edge-top" />
+          <div className="paper-lines" />
+
+          <div className="letter-body">
+            <p className="letter-greeting">
+              {typedText.greeting}
+              {!typedText.line1 && <span className="cursor" />}
+            </p>
+
+            <div className="letter-section">
+              <p className="letter-line">{typedText.line1}</p>
+              <p className="letter-line letter-emphasis">{typedText.line2}</p>
+            </div>
+
+            <div className="letter-spacer" />
+
+            <div className="letter-section">
+              <p className="letter-line">{typedText.line3}</p>
+              <p className="letter-line">{typedText.line4}</p>
+              <p className="letter-line">{typedText.line5}</p>
+            </div>
+
+            <div className="letter-spacer" />
+
+            <div className="letter-section letter-section-main">
+              <p className="letter-line letter-main">{typedText.line6}</p>
+              <p className="letter-line letter-main">{typedText.line7}</p>
+              <p className="letter-line letter-main letter-final">{typedText.line8}</p>
+            </div>
+
+            <div className="letter-divider">
+              <span className="divider-flourish">❧</span>
+            </div>
+
+            <p className="letter-ps">{typedText.ps}</p>
+          </div>
+
+          <div className="paper-edge paper-edge-bottom" />
         </div>
 
-        <div className="letter-footer">
-          <span className="wax-seal">🖋️</span>
+        {/* Decorative wax seal */}
+        <div className="wax-seal-container">
+          <div className="wax-seal">
+            <span className="wax-symbol">♡</span>
+          </div>
         </div>
       </div>
     </div>
