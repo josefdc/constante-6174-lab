@@ -1,11 +1,14 @@
+import { memo, useMemo } from 'react'
 import { getDigits } from '../utils/kaprekar'
 import './StepDisplay.css'
 
-function StepDisplay({ step, stepNumber }) {
-  const inputDigits = getDigits(step.input)
-  const largestDigits = getDigits(step.largest)
-  const smallestDigits = getDigits(step.smallest)
-  const resultDigits = getDigits(step.result)
+const StepDisplay = memo(function StepDisplay({ step, stepNumber }) {
+  const { inputDigits, largestDigits, smallestDigits, resultDigits } = useMemo(() => ({
+    inputDigits: getDigits(step.input),
+    largestDigits: getDigits(step.largest),
+    smallestDigits: getDigits(step.smallest),
+    resultDigits: getDigits(step.result)
+  }), [step.input, step.largest, step.smallest, step.result])
 
   return (
     <div className="step-display">
@@ -34,7 +37,9 @@ function StepDisplay({ step, stepNumber }) {
         <div className="number-value">{step.largestNum}</div>
       </div>
 
-      <div className="operation-symbol">−</div>
+      <div className="operation-symbol" aria-label="minus">
+        <span className="operation-line"></span>
+      </div>
 
       <div className="step-section">
         <h3 className="step-label">Sort Ascending (Smallest)</h3>
@@ -50,7 +55,7 @@ function StepDisplay({ step, stepNumber }) {
 
       <div className="arrow-down">↓</div>
 
-      <div className="step-section result-section">
+      <div className={`step-section result-section ${step.result === '6174' ? 'final-result' : ''}`}>
         <h3 className="step-label">Result</h3>
         <div className="digit-container">
           {resultDigits.map((digit, idx) => (
@@ -68,6 +73,6 @@ function StepDisplay({ step, stepNumber }) {
       </div>
     </div>
   )
-}
+})
 
 export default StepDisplay

@@ -3,17 +3,20 @@
    Elegant number entry with warm accents
    ============================================ */
 
+/* Lighter touch - an invitation, not a destination */
 .input-panel {
   margin: var(--space-6) 0;
   padding: var(--space-8);
-  background: var(--gradient-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-xl);
-  border: var(--border-subtle);
-  box-shadow:
-    var(--shadow-lg),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(247, 232, 212, 0.06);
+  box-shadow: var(--shadow-sm);
   animation: fadeInUp 0.5s var(--ease-out) 0.1s both;
   position: relative;
 }
@@ -107,6 +110,16 @@
   box-shadow:
     0 0 0 4px rgba(212, 165, 116, 0.15),
     var(--shadow-glow-gold);
+}
+
+/* Breathing input field - subtle invitation when empty */
+.input-controls input:placeholder-shown:not(:focus) {
+  animation: inputBreathe 4s ease-in-out infinite;
+}
+
+@keyframes inputBreathe {
+  0%, 100% { border-color: rgba(212, 165, 116, 0.3); }
+  50% { border-color: rgba(212, 165, 116, 0.5); }
 }
 
 .input-controls input.error {
@@ -343,6 +356,10 @@
   .btn,
   .input-controls input {
     transition: none;
+  }
+
+  .input-controls input:placeholder-shown:not(:focus) {
+    animation: none;
   }
 
   .btn:hover:not(:disabled) {

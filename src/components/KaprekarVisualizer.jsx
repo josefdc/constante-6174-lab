@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import StepDisplay from './StepDisplay'
 import './KaprekarVisualizer.css'
 
@@ -20,28 +20,34 @@ function KaprekarVisualizer({ sequence, currentStep, onStepChange, isPlaying, on
     return () => clearTimeout(timer)
   }, [isPlaying, currentStep, totalSteps, onStepChange, onPlayingChange])
 
-  const handlePlay = () => {
+  const handlePlay = useCallback(() => {
     if (currentStep >= totalSteps - 1) {
       onStepChange(0)
     }
     onPlayingChange(true)
-  }
+  }, [currentStep, totalSteps, onStepChange, onPlayingChange])
 
-  const handlePause = () => {
+  const handlePause = useCallback(() => {
     onPlayingChange(false)
-  }
+  }, [onPlayingChange])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentStep < totalSteps - 1) {
       onStepChange(currentStep + 1)
     }
-  }
+  }, [currentStep, totalSteps, onStepChange])
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentStep > 0) {
       onStepChange(currentStep - 1)
     }
-  }
+  }, [currentStep, onStepChange])
+
+  const handleTimelineClick = useCallback((index) => {
+    if (!isPlaying) {
+      onStepChange(index)
+    }
+  }, [isPlaying, onStepChange])
 
   const currentStepData = sequence.steps[currentStep]
   const isLastStep = currentStepData.result === '6174'
@@ -104,7 +110,8 @@ function KaprekarVisualizer({ sequence, currentStep, onStepChange, isPlaying, on
           <div
             key={index}
             className={`timeline-dot ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`}
-            onClick={() => !isPlaying && onStepChange(index)}
+            style={{ '--index': index }}
+            onClick={() => handleTimelineClick(index)}
             title={`Step ${index + 1}: ${step.result}`}
           >
             {step.result === '6174' ? '🎯' : index + 1}
